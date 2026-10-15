@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>circle.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>/* Leaflet 1.9.4 CSS, inlined */
+.leaflet-image-layer,.leaflet-layer,.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-pane,.leaflet-pane>canvas,.leaflet-pane>svg,.leaflet-tile,.leaflet-tile-container,.leaflet-zoom-box{position:absolute;left:0;top:0}.leaflet-container{overflow:hidden}.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-tile{-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-user-drag:none}.leaflet-tile::selection{background:0 0}.leaflet-safari .leaflet-tile{image-rendering:-webkit-optimize-contrast}.leaflet-safari .leaflet-tile-container{width:1600px;height:1600px;-webkit-transform-origin:0 0}.leaflet-marker-icon,.leaflet-marker-shadow{display:block}.leaflet-container .leaflet-overlay-pane svg{max-width:none!important;max-height:none!important}.leaflet-container .leaflet-marker-pane img,.leaflet-container .leaflet-shadow-pane img,.leaflet-container .leaflet-tile,.leaflet-container .leaflet-tile-pane img,.leaflet-container img.leaflet-image-layer{max-width:none!important;max-height:none!important;width:auto;padding:0}.leaflet-container img.leaflet-tile{mix-blend-mode:plus-lighter}.leaflet-container.leaflet-touch-zoom{-ms-touch-action:pan-x pan-y;touch-action:pan-x pan-y}.leaflet-container.leaflet-touch-drag{-ms-touch-action:pinch-zoom;touch-action:none;touch-action:pinch-zoom}.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom{-ms-touch-action:none;touch-action:none}.leaflet-container{-webkit-tap-highlight-color:transparent}.leaflet-container a{-webkit-tap-highlight-color:rgba(51,181,229,.4)}.leaflet-tile{filter:inherit;visibility:hidden}.leaflet-tile-loaded{visibility:inherit}.leaflet-zoom-box{width:0;height:0;-moz-box-sizing:border-box;box-sizing:border-box;z-index:800}.leaflet-overlay-pane svg{-moz-user-select:none}.leaflet-pane{z-index:400}.leaflet-tile-pane{z-index:200}.leaflet-overlay-pane{z-index:400}.leaflet-shadow-pane{z-index:500}.leaflet-marker-pane{z-index:600}.leaflet-tooltip-pane{z-index:650}.leaflet-popup-pane{z-index:700}.leaflet-map-pane canvas{z-index:100}.leaflet-map-pane svg{z-index:200}.leaflet-vml-shape{width:1px;height:1px}.lvml{behavior:url(#default#VML);display:inline-block;position:absolute}.leaflet-control{position:relative;z-index:800;pointer-events:visiblePainted;pointer-events:auto}.leaflet-bottom,.leaflet-top{position:absolute;z-index:1000;pointer-events:none}.leaflet-top{top:0}.leaflet-right{right:0}.leaflet-bottom{bottom:0}.leaflet-left{left:0}.leaflet-control{float:left;clear:both}.leaflet-right .leaflet-control{float:right}.leaflet-top .leaflet-control{margin-top:10px}.leaflet-bottom .leaflet-control{margin-bottom:10px}.leaflet-left .leaflet-control{margin-left:10px}.leaflet-right .leaflet-control{margin-right:10px}.leaflet-fade-anim .leaflet-popup{opacity:0;-webkit-transition:opacity .2s linear;-moz-transition:opacity .2s linear;transition:opacity .2s linear}.leaflet-fade-anim .leaflet-map-pane .leaflet-popup{opacity:1}.leaflet-zoom-animated{-webkit-transform-origin:0 0;-ms-transform-origin:0 0;transform-origin:0 0}svg.leaflet-zoom-animated{will-change:transform}.leaflet-zoom-anim .leaflet-zoom-animated{-webkit-transition:-webkit-transform .25s cubic-bezier(0,0,.25,1);-moz-transition:-moz-transform .25s cubic-bezier(0,0,.25,1);transition:transform .25s cubic-bezier(0,0,.25,1)}.leaflet-pan-anim .leaflet-tile,.leaflet-zoom-anim .leaflet-tile{-webkit-transition:none;-moz-transition:none;transition:none}.leaflet-zoom-anim .leaflet-zoom-hide{visibility:hidden}.leaflet-interactive{cursor:pointer}.leaflet-grab{cursor:-webkit-grab;cursor:-moz-grab;cursor:grab}.leaflet-crosshair,.leaflet-crosshair .leaflet-interactive{cursor:crosshair}.leaflet-control,.leaflet-popup-pane{cursor:auto}.leaflet-dragging .leaflet-grab,.leaflet-dragging .leaflet-grab .leaflet-interactive,.leaflet-dragging .leaflet-marker-draggable{cursor:move;cursor:-webkit-grabbing;cursor:-moz-grabbing;cursor:grabbing}.leaflet-image-layer,.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-pane>svg path,.leaflet-tile-container{pointer-events:none}.leaflet-image-layer.leaflet-interactive,.leaflet-marker-icon.leaflet-interactive,.leaflet-pane>svg path.leaflet-interactive,svg.leaflet-image-layer.leaflet-interactive path{pointer-events:visiblePainted;pointer-events:auto}.leaflet-container{background:#ddd;outline-offset:1px}.leaflet-container a{color:#0078a8}.leaflet-zoom-box{border:2px dotted #38f;background:rgba(255,255,255,.5)}.leaflet-container{font-family:"Helvetica Neue",Arial,Helvetica,sans-serif;font-size:12px;font-size:.75rem;line-height:1.5}.leaflet-bar{box-shadow:0 1px 5px rgba(0,0,0,.65);border-radius:4px}.leaflet-bar a{background-color:#fff;border-bottom:1px solid #ccc;width:26px;height:26px;line-height:26px;display:block;text-align:center;text-decoration:none;color:#000}.leaflet-bar a,.leaflet-control-layers-toggle{background-position:50% 50%;background-repeat:no-repeat;display:block}.leaflet-bar a:focus,.leaflet-bar a:hover{background-color:#f4f4f4}.leaflet-bar a:first-child{border-top-left-radius:4px;border-top-right-radius:4px}.leaflet-bar a:last-child{border-bottom-left-radius:4px;border-bottom-right-radius:4px;border-bottom:none}.leaflet-bar a.leaflet-disabled{cursor:default;background-color:#f4f4f4;color:#bbb}.leaflet-touch .leaflet-bar a{width:30px;height:30px;line-height:30px}.leaflet-touch .leaflet-bar a:first-child{border-top-left-radius:2px;border-top-right-radius:2px}.leaflet-touch .leaflet-bar a:last-child{border-bottom-left-radius:2px;border-bottom-right-radius:2px}.leaflet-control-zoom-in,.leaflet-control-zoom-out{font:bold 18px 'Lucida Console',Monaco,monospace;text-indent:1px}.leaflet-touch .leaflet-control-zoom-in,.leaflet-touch .leaflet-control-zoom-out{font-size:22px}.leaflet-control-layers{box-shadow:0 1px 5px rgba(0,0,0,.4);background:#fff;border-radius:5px}.leaflet-control-layers-toggle{background-image:url(images/layers.png);width:36px;height:36px}.leaflet-retina .leaflet-control-layers-toggle{background-image:url(images/layers-2x.png);background-size:26px 26px}.leaflet-touch .leaflet-control-layers-toggle{width:44px;height:44px}.leaflet-control-layers .leaflet-control-layers-list,.leaflet-control-layers-expanded .leaflet-control-layers-toggle{display:none}.leaflet-control-layers-expanded .leaflet-control-layers-list{display:block;position:relative}.leaflet-control-layers-expanded{padding:6px 10px 6px 6px;color:#333;background:#fff}.leaflet-control-layers-scrollbar{overflow-y:scroll;overflow-x:hidden;padding-right:5px}.leaflet-control-layers-selector{margin-top:2px;position:relative;top:1px}.leaflet-control-layers label{display:block;font-size:13px;font-size:1.08333em}.leaflet-control-layers-separator{height:0;border-top:1px solid #ddd;margin:5px -10px 5px -6px}.leaflet-default-icon-path{background-image:url(images/marker-icon.png)}.leaflet-container .leaflet-control-attribution{background:#fff;background:rgba(255,255,255,.8);margin:0}.leaflet-control-attribution,.leaflet-control-scale-line{padding:0 5px;color:#333;line-height:1.4}.leaflet-control-attribution a{text-decoration:none}.leaflet-control-attribution a:focus,.leaflet-control-attribution a:hover{text-decoration:underline}.leaflet-attribution-flag{display:inline!important;vertical-align:baseline!important;width:1em;height:.6669em}.leaflet-left .leaflet-control-scale{margin-left:5px}.leaflet-bottom .leaflet-control-scale{margin-bottom:5px}.leaflet-control-scale-line{border:2px solid #777;border-top:none;line-height:1.1;padding:2px 5px 1px;white-space:nowrap;-moz-box-sizing:border-box;box-sizing:border-box;background:rgba(255,255,255,.8);text-shadow:1px 1px #fff}.leaflet-control-scale-line:not(:first-child){border-top:2px solid #777;border-bottom:none;margin-top:-2px}.leaflet-control-scale-line:not(:first-child):not(:last-child){border-bottom:2px solid #777}.leaflet-touch .leaflet-bar,.leaflet-touch .leaflet-control-attribution,.leaflet-touch .leaflet-control-layers{box-shadow:none}.leaflet-touch .leaflet-bar,.leaflet-touch .leaflet-control-layers{border:2px solid rgba(0,0,0,.2);background-clip:padding-box}.leaflet-popup{position:absolute;text-align:center;margin-bottom:20px}.leaflet-popup-content-wrapper{padding:1px;text-align:left;border-radius:12px}.leaflet-popup-content{margin:13px 24px 13px 20px;line-height:1.3;font-size:13px;font-size:1.08333em;min-height:1px}.leaflet-popup-content p{margin:17px 0;margin:1.3em 0}.leaflet-popup-tip-container{width:40px;height:20px;position:absolute;left:50%;margin-top:-1px;margin-left:-20px;overflow:hidden;pointer-events:none}.leaflet-popup-tip{width:17px;height:17px;padding:1px;margin:-10px auto 0;pointer-events:auto;-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-ms-transform:rotate(45deg);transform:rotate(45deg)}.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#fff;color:#333;box-shadow:0 3px 14px rgba(0,0,0,.4)}.leaflet-container a.leaflet-popup-close-button{position:absolute;top:0;right:0;border:none;text-align:center;width:24px;height:24px;font:16px/24px Tahoma,Verdana,sans-serif;color:#757575;text-decoration:none;background:0 0}.leaflet-container a.leaflet-popup-close-button:focus,.leaflet-container a.leaflet-popup-close-button:hover{color:#585858}.leaflet-popup-scrolled{overflow:auto}.leaflet-oldie .leaflet-popup-content-wrapper{-ms-zoom:1}.leaflet-oldie .leaflet-popup-tip{width:24px;margin:0 auto}.leaflet-oldie .leaflet-control-layers,.leaflet-oldie .leaflet-control-zoom,.leaflet-oldie .leaflet-popup-content-wrapper,.leaflet-oldie .leaflet-popup-tip{border:1px solid #999}.leaflet-div-icon{background:#fff;border:1px solid #666}.leaflet-tooltip{position:absolute;padding:6px;background-color:#fff;border:1px solid #fff;border-radius:3px;color:#222;white-space:nowrap;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;pointer-events:none;box-shadow:0 1px 3px rgba(0,0,0,.4)}.leaflet-tooltip.leaflet-interactive{cursor:pointer;pointer-events:auto}.leaflet-tooltip-bottom:before,.leaflet-tooltip-left:before,.leaflet-tooltip-right:before,.leaflet-tooltip-top:before{position:absolute;pointer-events:none;border:6px solid transparent;background:0 0;content:""}.leaflet-tooltip-bottom{margin-top:6px}.leaflet-tooltip-top{margin-top:-6px}.leaflet-tooltip-bottom:before,.leaflet-tooltip-top:before{left:50%;margin-left:-6px}.leaflet-tooltip-top:before{bottom:0;margin-bottom:-12px;border-top-color:#fff}.leaflet-tooltip-bottom:before{top:0;margin-top:-12px;margin-left:-6px;border-bottom-color:#fff}.leaflet-tooltip-left{margin-left:-6px}.leaflet-tooltip-right{margin-left:6px}.leaflet-tooltip-left:before,.leaflet-tooltip-right:before{top:50%;margin-top:-6px}.leaflet-tooltip-left:before{right:0;margin-right:-12px;border-left-color:#fff}.leaflet-tooltip-right:before{left:0;margin-left:-12px;border-right-color:#fff}@media print{.leaflet-control{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+  :root { --cream: #faf7f0; --paper: #ffffff; --mint: #84e4be; --mint-soft: #e3f7ee; --mint-ink: #1f7a57; --ink: #331b0d; --ink-2: #6b5a4b; --ink-3: #a3968a; --tan: #8c7753; --hair: #ece6d9; --red: #b4432f; --radius: 14px; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px 12px; background: #e7e1d4; font-family: Inter, -apple-system, system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  #phone { width: 390px; height: 780px; margin: 0 auto; background: var(--cream); border-radius: 40px; box-shadow: 0 30px 60px rgba(51,27,13,.25), 0 0 0 10px #1c1612; overflow: hidden; display: flex; flex-direction: column; position: relative; }
+  .status { height: 44px; display: flex; justify-content: space-between; align-items: center; padding: 0 28px; font-size: 13px; font-weight: 600; flex: none; }
+  .screen { flex: 1; overflow-y: auto; padding: 4px 20px 24px; scrollbar-width: none; }
+  .screen::-webkit-scrollbar { display: none; }
+  .tabs { flex: none; display: flex; border-top: 1px solid var(--hair); background: var(--cream); padding: 8px 10px 18px; }
+  .tabs button { flex: 1; position: relative; border: 0; background: none; font: inherit; font-size: 11px; font-weight: 500; color: var(--ink-3); cursor: pointer; padding: 6px 0; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .tabs button.on { color: var(--ink); }
+  .tabs svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .tabs button.on svg { stroke: var(--mint-ink); }
+  h1 { font-size: 26px; font-weight: 700; letter-spacing: -.02em; margin: 12px 0 4px; }
+  h2 { font-size: 13px; font-weight: 600; color: var(--ink-2); margin: 22px 0 8px; }
+  h3 { font-size: 16px; font-weight: 600; margin: 0; }
+  p { margin: 0; line-height: 1.45; }
+  .sub { color: var(--ink-2); font-size: 13px; }
+  .tiny { color: var(--ink-3); font-size: 12px; }
+  .logo { font-size: 44px; font-weight: 700; letter-spacing: -.04em; }
+  .logo b { color: var(--mint); }
+  .back { border: 0; background: none; font: inherit; font-size: 14px; color: var(--ink-2); padding: 8px 0; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+  .btn { width: 100%; border: 0; border-radius: 12px; padding: 15px; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 12px; }
+  .btn.primary { background: var(--ink); color: #fff; }
+  .btn.mint { background: var(--mint); color: var(--ink); }
+  .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+  .btn.soft { background: var(--paper); color: var(--ink); border: 1px solid var(--hair); }
+  .btn.danger { background: transparent; color: var(--red); border: 1px solid #e6c9c3; }
+  .btn.sm { width: auto; padding: 8px 14px; font-size: 13px; margin: 0; border-radius: 10px; white-space: nowrap; }
+  .field { margin-top: 14px; }
+  .field label { display: block; font-size: 12px; font-weight: 500; color: var(--ink-2); margin-bottom: 6px; }
+  .field input, .field select, .field textarea { width: 100%; font: inherit; font-size: 15px; padding: 13px 14px; border: 1px solid var(--hair); border-radius: 12px; background: var(--paper); color: var(--ink); outline: none; }
+  .field input:focus, .field textarea:focus { border-color: var(--ink); }
+  .row { display: flex; gap: 10px; }
+  .row > * { flex: 1; }
+  .card { background: var(--paper); border-radius: var(--radius); padding: 14px; margin-top: 10px; border: 1px solid var(--hair); }
+  .card.tap { cursor: pointer; }
+  .card.tap:active { transform: scale(.99); }
+  .chips { display: flex; gap: 8px; overflow-x: auto; padding: 10px 0 2px; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex: none; border: 1px solid var(--hair); background: var(--paper); border-radius: 999px; padding: 8px 14px; font: inherit; font-size: 13px; cursor: pointer; color: var(--ink); }
+  .chip.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .search { display: flex; align-items: center; gap: 10px; background: var(--paper); border: 1px solid var(--hair); border-radius: 14px; padding: 12px 14px; margin-top: 10px; font-size: 14px; }
+  .search input { border: 0; outline: 0; font: inherit; font-size: 14px; flex: 1; background: none; color: var(--ink); }
+  .seg { display: flex; background: #efeadf; border-radius: 10px; padding: 3px; margin: 12px 0 4px; }
+  .seg button { flex: 1; border: 0; background: none; font: inherit; font-size: 13px; font-weight: 500; padding: 7px; border-radius: 8px; cursor: pointer; color: var(--ink-2); }
+  .seg button.on { background: var(--paper); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+  .item { display: flex; gap: 12px; align-items: flex-start; }
+  .thumb { flex: none; width: 76px; height: 76px; border-radius: 12px; background: linear-gradient(160deg, #f1ece0, #e2dac8); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: var(--tan); letter-spacing: .04em; overflow: hidden; }
+  .thumb svg, .thumb img { width: 100%; height: 100%; display: block; }
+  .thumb img { object-fit: cover; }
+  .thumb.lg svg { padding: 10px; box-sizing: border-box; }
+  .thumb.lg img { height: 100%; }
+  .thumb.lg { width: 100%; height: 200px; border-radius: 18px; font-size: 13px; margin-top: 8px; }
+  .thumb.sm { width: 64px; height: 64px; font-size: 10px; }
+  .meta { flex: 1; min-width: 0; }
+  .price { font-weight: 700; font-size: 15px; }
+  .pill { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 999px; background: var(--mint-soft); color: var(--mint-ink); vertical-align: middle; }
+  .pill.grey { background: #efeadf; color: var(--ink-2); }
+  .pill.warn { background: #fdf0d8; color: #8a5a00; }
+  .pill.red { background: #fbe6e2; color: var(--red); }
+  .star { color: #d9a400; }
+  .list-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--hair); font-size: 14px; }
+  .list-row:last-child { border-bottom: 0; }
+  .list-row.total { font-weight: 700; border-top: 1px solid var(--ink); border-bottom: 0; margin-top: 4px; padding-top: 12px; }
+  .toggle { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .switch { flex: none; width: 46px; height: 28px; border-radius: 999px; background: #d9d2c3; position: relative; cursor: pointer; border: 0; padding: 0; }
+  .switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; transition: left .15s; }
+  .switch.on { background: var(--mint-ink); }
+  .switch.on::after { left: 21px; }
+  .bar { position: absolute; left: 16px; right: 16px; bottom: 86px; background: var(--ink); color: #fff; border-radius: 16px; padding: 12px 12px 12px 18px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 12px 30px rgba(51,27,13,.3); font-size: 14px; }
+  .bar .btn { margin: 0; width: auto; padding: 10px 16px; background: var(--mint); color: var(--ink); font-size: 14px; }
+  .center { text-align: center; }
+  .hero { padding: 40px 0 0; }
+  .check { width: 72px; height: 72px; border-radius: 50%; background: var(--mint-soft); display: flex; align-items: center; justify-content: center; margin: 30px auto 16px; }
+  .check svg { width: 34px; height: 34px; stroke: var(--mint-ink); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .upload { border: 1.5px dashed #cfc6b4; border-radius: 14px; padding: 26px; text-align: center; color: var(--ink-2); font-size: 13px; background: var(--paper); cursor: pointer; margin-top: 10px; }
+  .upload.done { border-style: solid; border-color: var(--mint-ink); color: var(--mint-ink); background: var(--mint-soft); padding: 0; overflow: hidden; position: relative; }
+  .upload.done img { display: block; width: 100%; height: 150px; object-fit: cover; }
+  .upload.done .tag { position: absolute; left: 10px; bottom: 10px; background: var(--mint-ink); color: #fff; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; }
+  .upload.done .retake { position: absolute; right: 10px; bottom: 10px; background: rgba(255,255,255,.9); color: var(--ink); font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; border: 0; cursor: pointer; }
+  .upload.live { padding: 0; overflow: hidden; border-style: solid; border-color: var(--ink); }
+  .upload.live video { display: block; width: 100%; height: 220px; object-fit: cover; background: #000; }
+  .upload.live .ctl { display: flex; gap: 8px; padding: 10px; background: var(--paper); }
+  .upload.live .ctl .btn { margin: 0; padding: 10px; font-size: 14px; }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+  svg.map { width: 100%; height: auto; background: var(--paper); border-radius: 16px; border: 1px solid var(--hair); display: block; margin-top: 10px; }
+  .lmap { height: 300px; border-radius: 16px; overflow: hidden; margin-top: 10px; border: 1px solid var(--hair); background: #eef0f3; }
+  .lmap .leaflet-control-attribution { font: 9px Inter, sans-serif; background: rgba(255,255,255,.7); color: #999; }
+  .lmap .leaflet-control-attribution a { color: #999; }
+  .lmap .leaflet-bar { border: 0; box-shadow: 0 1px 4px rgba(0,0,0,.15); border-radius: 10px; overflow: hidden; }
+  .lmap .leaflet-bar a { color: var(--ink); border-color: var(--hair); }
+  .pinwrap { position: relative; width: 0; height: 0; }
+  .pin { position: absolute; left: -16px; top: -40px; width: 32px; height: 32px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: var(--mint-ink); box-shadow: 0 3px 8px rgba(0,0,0,.25); border: 2px solid #fff; cursor: pointer; transition: transform .12s; }
+  .pin span { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transform: rotate(45deg); color: #fff; font: 700 12px Inter, sans-serif; }
+  .pinwrap.on .pin { background: var(--ink); transform: rotate(-45deg) scale(1.18); }
+  .pinlabel { position: absolute; top: 4px; left: 50%; transform: translateX(-50%); white-space: nowrap; font: 600 11px Inter, sans-serif; color: var(--ink); text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff; pointer-events: none; }
+  .you { position: relative; width: 0; height: 0; }
+  .you .dot { position: absolute; left: -8px; top: -8px; width: 16px; height: 16px; border-radius: 50%; background: #1a73e8; border: 3px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.3); }
+  .you .halo { position: absolute; left: -22px; top: -22px; width: 44px; height: 44px; border-radius: 50%; background: rgba(26,115,232,.18); animation: pulse 2s ease-out infinite; }
+  @keyframes pulse { 0% { transform: scale(.6); opacity: .9 } 100% { transform: scale(1.4); opacity: 0 } }
+  svg.map .pin { cursor: pointer; }
+  .msg { max-width: 80%; padding: 10px 14px; border-radius: 16px; margin-top: 8px; font-size: 14px; line-height: 1.4; }
+  .msg.me { background: var(--ink); color: #fff; margin-left: auto; border-bottom-right-radius: 4px; }
+  .msg.them { background: var(--paper); border: 1px solid var(--hair); border-bottom-left-radius: 4px; }
+  .msg .t { display: block; font-size: 10px; opacity: .6; margin-top: 4px; }
+  .compose { display: flex; gap: 8px; margin-top: 12px; }
+  .compose input { flex: 1; font: inherit; font-size: 14px; padding: 12px 14px; border: 1px solid var(--hair); border-radius: 999px; background: var(--paper); outline: none; }
+  .compose button { border: 0; background: var(--ink); color: #fff; border-radius: 999px; width: 44px; cursor: pointer; font-size: 18px; }
+  .stars { display: flex; gap: 6px; font-size: 30px; cursor: pointer; margin-top: 6px; }
+  .stars span { color: #d9d2c3; }
+  .stars span.on { color: #d9a400; }
+  .avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--mint); color: var(--ink); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 22px; }
+  .stat { text-align: center; }
+  .stat b { display: block; font-size: 20px; }
+  .stat span { font-size: 11px; color: var(--ink-2); }
+  .divider { height: 1px; background: var(--hair); margin: 14px 0; }
+  .link { background: none; border: 0; color: var(--mint-ink); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; padding: 0; }
+  .toast { position: absolute; left: 50%; bottom: 100px; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 999px; font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; white-space: nowrap; }
+  .toast.up { bottom: 176px; }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+<div id="phone"></div>
+
+<script>
+// ---------- item illustrations (brand palette, offline) ----------
+const ART = {
+  racks: (v) => `<svg viewBox="0 0 200 150" fill="none" stroke="#331b0d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="40" y1="38" x2="160" y2="38"/><line x1="48" y1="38" x2="48" y2="122"/><line x1="152" y1="38" x2="152" y2="122"/>
+    <line x1="34" y1="122" x2="62" y2="122"/><line x1="138" y1="122" x2="166" y2="122"/>
+    <circle cx="36" cy="128" r="4" fill="#331b0d"/><circle cx="60" cy="128" r="4" fill="#331b0d"/><circle cx="140" cy="128" r="4" fill="#331b0d"/><circle cx="164" cy="128" r="4" fill="#331b0d"/>
+    ${[70, 100, 130].map((x, i) => `<path d="M${x} 38 v8"/><path d="M${x - 16} 60 q16 -14 32 0" />${i === 1 ? `<path d="M${x - 18} 60 l-6 46 h48 l-6 -46 z" fill="#84e4be" stroke="#331b0d"/>` : `<path d="M${x - 17} 60 l-5 40 h44 l-5 -40 z" fill="#fff"/>`}`).join("")}
+    ${v ? "" : '<line x1="48" y1="30" x2="48" y2="38"/><line x1="152" y1="30" x2="152" y2="38"/>'}</svg>`,
+  mirrors: () => `<svg viewBox="0 0 200 150" fill="none" stroke="#331b0d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="72" y="14" width="56" height="104" rx="26" fill="#e3f7ee"/><rect x="80" y="22" width="40" height="88" rx="20" fill="#fff" stroke="none"/>
+    <path d="M90 34 q-6 20 0 40" stroke="#84e4be" stroke-width="4"/>
+    <line x1="100" y1="118" x2="100" y2="128"/><path d="M70 136 l30 -14 l30 14"/><line x1="64" y1="136" x2="136" y2="136"/></svg>`,
+  tables: () => `<svg viewBox="0 0 200 150" fill="none" stroke="#331b0d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="24" y="52" width="152" height="14" rx="4" fill="#84e4be"/>
+    <line x1="40" y1="66" x2="70" y2="126"/><line x1="70" y1="66" x2="40" y2="126"/>
+    <line x1="130" y1="66" x2="160" y2="126"/><line x1="160" y1="66" x2="130" y2="126"/>
+    <line x1="55" y1="96" x2="145" y2="96" stroke-dasharray="4 6"/></svg>`,
+  steamers: () => `<svg viewBox="0 0 200 150" fill="none" stroke="#331b0d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="70" y="92" width="60" height="38" rx="8" fill="#fff"/><rect x="78" y="100" width="22" height="22" rx="4" fill="#84e4be" stroke="none"/>
+    <line x1="100" y1="92" x2="100" y2="40"/><path d="M100 40 q0 -18 20 -18 q22 0 22 16 v22" />
+    <rect x="134" y="58" width="16" height="22" rx="4" fill="#331b0d"/>
+    <path d="M142 48 q-6 -8 0 -16" stroke="#84e4be"/><path d="M152 46 q-6 -8 0 -16" stroke="#84e4be"/><path d="M162 50 q-6 -8 0 -16" stroke="#84e4be"/>
+    <circle cx="76" cy="136" r="4" fill="#331b0d"/><circle cx="124" cy="136" r="4" fill="#331b0d"/></svg>`,
+  shelving: () => `<svg viewBox="0 0 200 150" fill="none" stroke="#331b0d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="50" y1="18" x2="50" y2="134"/><line x1="150" y1="18" x2="150" y2="134"/>
+    ${[36, 66, 96, 126].map(y => `<line x1="42" y1="${y}" x2="158" y2="${y}"/>`).join("")}
+    <rect x="62" y="20" width="22" height="16" fill="#84e4be"/><rect x="92" y="48" width="30" height="18" fill="#fff"/><rect x="118" y="80" width="22" height="16" fill="#84e4be"/><rect x="60" y="108" width="36" height="18" fill="#fff"/></svg>`,
+};
+const artFor = i => i.img ? `<img src="${i.img}" alt="${i.name}">` : (ART[i.cat] || (() => i.cat.toUpperCase()))(i.sub.includes("Basic"));
+
+// ---------- data ----------
+const LENDERS = {
+  "Second Life Vintage": { lat: 40.7206, lng: -73.9889, area: "Lower East Side", dist: 0.4, mx: 215, my: 95, verified: true, rating: 4.9, reviewCount: 23, since: "Mar 2026", addr: "141 Orchard St", instr: "Ring buzzer 2. Gear is by the back door; bring a cart or a friend for the racks.", slots: ["Fri 5–7pm", "Sat 8–9am", "Sun 8–9am"] },
+  "Maya K.": { lat: 40.7193, lng: -73.9962, area: "Chinatown", dist: 0.9, mx: 150, my: 150, verified: false, rating: 4.5, reviewCount: 4, since: "Aug 2026", addr: "Mott St & Grand St", instr: "Meet on the corner. Rack folds flat and fits in a cab.", slots: ["Sat 10–11am"] },
+  "Bowery Events Co.": { lat: 40.7253, lng: -73.9921, area: "NoHo", dist: 1.2, mx: 120, my: 45, verified: true, rating: 4.7, reviewCount: 41, since: "Feb 2026", addr: "315 Bowery, loading dock", instr: "Ask for Dana at the dock.", slots: ["Fri 4–6pm", "Sat 9–10am"] },
+  "Orchard St Boutique": { lat: 40.7177, lng: -73.9905, area: "Lower East Side", dist: 0.6, mx: 268, my: 152, verified: true, rating: 4.8, reviewCount: 12, since: "May 2026", addr: "92 Orchard St", instr: "Front counter. Shelving breaks down into 4 flat pieces.", slots: ["Sat 8–9am"], below: true },
+};
+const ITEMS = [
+  { id: 1, img: "img/rack-heavy.jpg", name: "Rolling clothing rack", sub: "Heavy duty", cat: "racks", lender: "Second Life Vintage", price: 12, deposit: 40, cond: "Good", condNote: "Minor scuffs on base", specs: ["Adjustable 50–65 in", "Holds ~60 lb", "Folds flat"], photoDate: "Oct 9", reviews: [["Priya S.", 5, "Sturdy, held my whole winter coat rack. Pickup took 2 minutes."], ["Tom R.", 5, "Exactly as pictured."]] },
+  { id: 3, img: "img/mirror.jpg", name: "Full-length mirror", sub: "On stand, tilts", cat: "mirrors", lender: "Second Life Vintage", price: 10, deposit: 50, cond: "Good", condNote: "No cracks or chips", specs: ["65 x 22 in", "Wood frame", "Tilting stand"], photoDate: "Oct 9", reviews: [["Priya S.", 5, "Heavy but worth it. Customers actually used it."]] },
+  { id: 7, img: "img/table-4ft.jpg", name: "Folding table", sub: "4 ft, wood top", cat: "tables", lender: "Second Life Vintage", price: 7, deposit: 20, cond: "Good", condNote: "", specs: ["48 x 24 in", "Wood top", "Folds in half"], photoDate: "Oct 9", reviews: [] },
+  { id: 6, img: "img/shelving.jpg", name: "Display shelving", sub: "4 shelves, metal", cat: "shelving", lender: "Orchard St Boutique", price: 11, deposit: 45, cond: "Fair", condNote: "One shelf slightly bowed", specs: ["48 x 18 x 60 in", "Metal", "Breaks down flat"], photoDate: "Sep 30", reviews: [["Lena M.", 4, "Bowed shelf is noticeable but fine for lighter items."]] },
+  { id: 2, img: "img/rack-basic.jpg", name: "Rolling clothing rack", sub: "Basic", cat: "racks", lender: "Maya K.", price: 8, deposit: 30, cond: "Fair", condNote: "One wheel sticks a little", specs: ["Fixed 60 in", "Holds ~40 lb"], photoDate: "Sep 28", reviews: [["Jules A.", 4, "Does the job. Wheel is annoying on cobblestones."]] },
+  { id: 4, img: "img/table-6ft.jpg", name: "Folding table", sub: "6 ft, plastic top", cat: "tables", lender: "Bowery Events Co.", price: 9, deposit: 25, cond: "Good", condNote: "", specs: ["72 x 30 in", "29 in high"], photoDate: "Oct 3", reviews: [["Dev K.", 5, "Standard event table, clean."]] },
+  { id: 5, img: "img/steamer.jpg", name: "Garment steamer", sub: "Standing, 1500W", cat: "steamers", lender: "Bowery Events Co.", price: 7, deposit: 35, cond: "Good", condNote: "Tested Oct 3", specs: ["1500W", "45 min continuous", "1.5 L tank"], photoDate: "Oct 3", reviews: [["Ana P.", 5, "Heated up fast. Came with the water cup."]] },
+];
+ITEMS.forEach(i => Object.assign(i, LENDERS[i.lender]));
+const CATS = [["all", "All"], ["racks", "Racks"], ["mirrors", "Mirrors"], ["tables", "Tables"], ["steamers", "Steamers"], ["shelving", "Shelving"]];
+const FEE = 0.10, PROTECT = 0.08, YOU = { mx: 190, my: 120, lat: 40.7186, lng: -73.9880 };
+let MAP = null;
+let PINS = [];
+
+// ---------- state ----------
+const S = {
+  screen: "welcome", tab: "explore", user: null, idFront: false, selfie: false, idImg: null, selfieImg: null, cam: null,
+  cat: "all", date: "2026-10-18", view: "list", pinLender: null, item: null,
+  cart: [], start: "", end: "", slot: "", note: "", protect: true,
+  rental: null, draftStars: 0, cancelTarget: null, reviewTarget: null,
+  role: "renter", me: "Second Life Vintage", listing: false, listingImg: null, blockTarget: null,
+  requests: [
+    { id: 201, renter: "Priya S.", verified: true, completed: 6, noShows: 0, rating: 5.0, items: [1, 3], start: "2026-10-18", end: "2026-10-18", slot: "Sat 8–9am", note: "Chelsea Flea on Saturday, I'll bring a cart.", status: "requested", total: 114.2 },
+    { id: 202, renter: "Jordan M.", verified: false, completed: 0, noShows: 0, rating: null, items: [7], start: "2026-10-25", end: "2026-10-26", slot: "Fri 5–7pm", note: "", status: "requested", total: 37.4 },
+  ],
+  rentals: [
+    { id: 101, items: [5, 4], lender: "Bowery Events Co.", start: "2026-10-11", end: "2026-10-11", slot: "Sat 9–10am", status: "returned", total: 34.6, reviewed: false,
+      msgs: [["them", "Hi Vicky, confirmed for Saturday. Ask for Dana at the dock.", "Oct 9, 4:12 PM"], ["me", "Perfect, see you then.", "Oct 9, 4:30 PM"]] },
+    { id: 102, items: [6], lender: "Orchard St Boutique", start: "2026-10-18", end: "2026-10-18", slot: "Sat 8–9am", status: "approved", total: 57.1, reviewed: false,
+      msgs: [["them", "Approved! The shelving will be by the counter, broken down into 4 pieces.", "Oct 13, 11:02 AM"]] },
+  ],
+};
+const $ = document.getElementById("phone");
+const go = (screen, tab) => { S.screen = screen; if (tab) S.tab = tab; render(); const el = $.querySelector(".screen"); if (el) el.scrollTop = 0; };
+const item = id => ITEMS.find(i => i.id === id);
+const money = n => "$" + n.toFixed(2);
+const days = () => { const a = new Date(S.start), b = new Date(S.end); return Math.max(1, Math.round((b - a) / 86400000) + 1); };
+const blockedOn = (i, d) => (i.blocked || []).some(([a, b]) => d >= a && d <= b);
+const results = () => ITEMS.filter(i => (S.cat === "all" || i.cat === S.cat) && !blockedOn(i, S.date)).sort((a, b) => a.dist - b.dist);
+const cartItems = () => S.cart.map(item);
+const cartLender = () => S.cart.length ? item(S.cart[0]).lender : null;
+const inCart = id => S.cart.includes(id);
+const allIn = (i, d = 1) => { const sub = i.price * d, fee = +(sub * FEE).toFixed(2); return { sub, fee, dep: i.deposit, total: +(sub + fee + i.deposit).toFixed(2) }; };
+const stars = r => `<span class="star">★</span> ${r.toFixed(1)}`;
+const SLOT_OPTIONS = ["Fri 4–6pm", "Fri 5–7pm", "Sat 8–9am", "Sat 9–10am", "Sun 8–9am", "Sun 5–6pm"];
+const ICON = {
+  explore: '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+  rentals: '<svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
+  inbox: '<svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg>',
+  profile: '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>',
+  check: '<svg viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg>',
+  listings: '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 20v-6"/></svg>',
+  requests: '<svg viewBox="0 0 24 24"><path d="M4 4h16v12H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg>',
+  earnings: '<svg viewBox="0 0 24 24"><path d="M12 3v18M17 7.5c0-1.9-2.2-3-5-3s-5 1.1-5 3 2.2 2.5 5 3 5 1.1 5 3-2.2 3-5 3-5-1.1-5-3"/></svg>',
+};
+function toast(t) { const el = $.querySelector(".toast"); if (!el) return; el.textContent = t; el.classList.add("show"); setTimeout(() => el.classList.remove("show"), 1600); }
+
+// ---------- actions ----------
+function signUp() { const n = $.querySelector("#name").value.trim(); if (!n || !$.querySelector("#email").value.trim()) return toast("Add your name and email"); S.user = { name: n, verified: false }; go("verify"); }
+function signIn() { S.user = { name: "Vicky Tran", verified: true }; go("explore", "explore"); }
+let STREAM = null;
+async function openCam(which) {
+  S.cam = which; render();
+  try {
+    STREAM = await navigator.mediaDevices.getUserMedia({ video: { facingMode: which === "selfie" ? "user" : "environment", width: { ideal: 1280 } }, audio: false });
+    attachCam();
+  } catch (e) {
+    S.cam = null; S[which] = true; S[which + "Img"] = null; render();
+    toast("Camera unavailable here, simulated capture");
+  }
+}
+function attachCam() { const v = $.querySelector("#cam"); if (v && STREAM) { v.srcObject = STREAM; v.play().catch(() => {}); } }
+function stopCam() { if (STREAM) { STREAM.getTracks().forEach(t => t.stop()); STREAM = null; } }
+function capture() {
+  const v = $.querySelector("#cam"); if (!v || !v.videoWidth) return toast("Camera is still starting");
+  const c = document.createElement("canvas"); c.width = v.videoWidth; c.height = v.videoHeight;
+  const ctx = c.getContext("2d");
+  if (S.cam === "selfie") { ctx.translate(c.width, 0); ctx.scale(-1, 1); }
+  ctx.drawImage(v, 0, 0);
+  S[S.cam + "Img"] = c.toDataURL("image/jpeg", 0.85); S[S.cam] = true; stopCam(); S.cam = null; render(); toast("Captured");
+}
+function cancelCam() { stopCam(); S.cam = null; render(); }
+function retake(which) { S[which] = false; S[which + "Img"] = null; openCam(which); }
+function finishVerify() { if (!S.idFront || !S.selfie) return toast("Add both photos to continue"); S.user.verified = true; go("verified"); }
+function toggleCart(id) {
+  const i = item(id);
+  if (inCart(id)) { S.cart = S.cart.filter(x => x !== id); render(); return; }
+  if (S.cart.length && cartLender() !== i.lender) { if (!confirm(`Your request already has items from ${cartLender()}. One request covers one lender and one pickup. Start over with ${i.lender}?`)) return; S.cart = []; }
+  S.cart.push(id); render(); toast("Added to request");
+}
+function startRequest() { S.start = S.date; S.end = S.date; S.slot = ""; go("request"); }
+function submitRequest() {
+  S.start = $.querySelector("#start").value; S.end = $.querySelector("#end").value; S.note = $.querySelector("#note").value;
+  const r = $.querySelector("input[name=slot]:checked");
+  if (!S.start || !S.end || new Date(S.end) < new Date(S.start)) return toast("Pick a valid date range");
+  if (!r) return toast("Pick a pickup slot"); S.slot = r.value; go("pay");
+}
+function totals() { const items = cartItems(), d = days(); const sub = items.reduce((s, i) => s + i.price * d, 0); const fee = +(sub * FEE).toFixed(2); const prot = S.protect ? +(sub * PROTECT).toFixed(2) : 0; const dep = items.reduce((s, i) => s + i.deposit, 0); return { items, d, sub, fee, prot, dep, total: +(sub + fee + prot + dep).toFixed(2) }; }
+function pay() {
+  const t = totals(); const L = LENDERS[cartLender()];
+  const r = { id: 100 + S.rentals.length + 1, items: [...S.cart], lender: cartLender(), start: S.start, end: S.end, slot: S.slot, status: "requested", total: t.total, protect: S.protect, reviewed: false,
+    msgs: S.note ? [["me", S.note, "Just now"]] : [] };
+  S.rentals.unshift(r); S.rental = r.id; S.cart = []; go("done");
+}
+function cancelRental(id) { const r = S.rentals.find(x => x.id === id); r.status = "cancelled"; S.cancelTarget = null; go("rentals", "rentals"); toast("Cancelled. Refund in 3–5 days."); }
+function reportIssue(id) { const r = S.rentals.find(x => x.id === id); r.status = "issue"; go("rentals", "rentals"); toast("Report sent. Deposit frozen."); }
+function sendMsg(id) { const inp = $.querySelector("#compose"); const v = inp.value.trim(); if (!v) return; const r = S.rentals.find(x => x.id === id); r.msgs.push(["me", v, "Just now"]); render(); setTimeout(() => { r.msgs.push(["them", "Got it, thanks! See you at pickup.", "Just now"]); render(); }, 900); }
+function submitReview(id) { if (!S.draftStars) return toast("Tap a star rating"); const r = S.rentals.find(x => x.id === id); r.reviewed = true; S.draftStars = 0; go("rentals", "rentals"); toast("Review posted"); }
+
+// ---------- lender actions ----------
+function switchRole(r) { S.role = r; stopCam(); go(r === "lender" ? "listings" : "explore", r === "lender" ? "listings" : "explore"); toast(r === "lender" ? "Lending as " + S.me : "Back to renting"); }
+function myItems() { return ITEMS.filter(i => i.lender === S.me); }
+function allRequests() {
+  const mine = S.rentals.filter(r => r.lender === S.me).map(r => ({ id: r.id, renter: S.user ? S.user.name : "Vicky Tran", verified: !!(S.user && S.user.verified), completed: 4, noShows: 0, rating: 5.0, items: r.items, start: r.start, end: r.end, slot: r.slot, note: (r.msgs.find(m => m[0] === "me") || [])[1] || "", status: r.status, total: r.total, linked: r }));
+  return [...mine, ...S.requests];
+}
+const daysBetween = (a, b) => Math.max(1, Math.round((new Date(b) - new Date(a)) / 86400000) + 1);
+const netOf = x => +(x.items.reduce((s, id) => s + (item(id) ? item(id).price : 0), 0) * daysBetween(x.start, x.end) * (1 - FEE)).toFixed(2);
+function decide(id, status) {
+  const q = allRequests().find(x => x.id === id); if (!q) return;
+  if (q.linked) { q.linked.status = status === "approved" ? "approved" : "declined"; if (status === "approved") q.linked.msgs.push(["them", "Approved! See you at pickup, " + LENDERS[S.me].instr, "Just now"]); }
+  else { const r = S.requests.find(x => x.id === id); r.status = status; }
+  render(); toast(status === "approved" ? "Approved. Renter notified." : "Declined. Renter refunded.");
+}
+function submitListing() {
+  const v = id => $.querySelector("#" + id).value.trim();
+  const name = v("l_name"), price = +v("l_price"), deposit = +v("l_deposit");
+  if (!name || !price || !deposit) return toast("Add a name, price and deposit");
+  const slots = [...$.querySelectorAll("input[name=l_slot]:checked")].map(x => x.value);
+  if (!slots.length) return toast("Pick at least one pickup slot");
+  const cat = v("l_cat");
+  const it = { id: Date.now(), name, sub: v("l_sub") || "", cat, lender: S.me, price, deposit, cond: v("l_cond"), condNote: v("l_condnote"), specs: v("l_specs").split(",").map(x => x.trim()).filter(Boolean), photoDate: "Today", reviews: [], img: S.listingImg, mine: true, slotsOverride: slots, availFrom: v("l_from"), availTo: v("l_to") };
+  Object.assign(it, LENDERS[S.me]); it.slots = slots;
+  ITEMS.unshift(it); S.listing = false; S.listingImg = null; go("listings", "listings"); toast("Listed. Live in search now.");
+}
+function blockDates(id) {
+  const a = $.querySelector("#b_from").value, b = $.querySelector("#b_to").value; if (!a || !b || b < a) return toast("Pick a valid range");
+  const it = item(id); (it.blocked = it.blocked || []).push([a, b]); go("listings", "listings"); toast("Dates blocked. Hidden from search.");
+}
+function unblock(id, idx) { item(id).blocked.splice(idx, 1); render(); }
+function removeListing(id) { if (!confirm("Remove this listing?")) return; const i = ITEMS.findIndex(x => x.id === id); if (i > -1) ITEMS.splice(i, 1); render(); toast("Listing removed"); }
+
+// ---------- pieces ----------
+const statusPill = s => ({ requested: '<span class="pill warn">Requested</span>', approved: '<span class="pill">Approved</span>', returned: '<span class="pill grey">Returned</span>', cancelled: '<span class="pill grey">Cancelled</span>', issue: '<span class="pill red">Issue reported</span>', declined: '<span class="pill grey">Declined</span>' })[s] || s;
+const lenderLine = L => `${L.verified ? '<span class="pill">✓ ID verified</span>' : '<span class="pill grey">Not verified</span>'} <span class="tiny">${stars(L.rating)} (${L.reviewCount})</span>`;
+function itemCard(i, extra = "") {
+  const a = allIn(i);
+  return `<div class="card tap ${extra}" onclick="S.item=${i.id};go('detail')"><div class="item">
+    <div class="thumb">${artFor(i)}</div>
+    <div class="meta">
+      <h3>${i.name} <span class="sub">${i.sub}</span></h3>
+      <div class="tiny" style="margin-top:3px">${i.lender} · ${i.dist} mi ${i.verified ? '<span class="pill">✓</span>' : ""} ${inCart(i.id) ? '<span class="pill">In request</span>' : ""}</div>
+      <div style="margin-top:6px"><span class="price">${money(a.total)}</span> <span class="tiny">all-in / day</span></div>
+      <div class="tiny">${stars(i.rating)} · ${i.cond} condition</div>
+    </div></div></div>`;
+}
+function mapSvg(list) {
+  const groups = {}; list.forEach(i => { (groups[i.lender] = groups[i.lender] || { ...i, items: [] }).items.push(i); }); PINS = Object.values(groups);
+  const pins = PINS.map((g, idx) => `<g class="pin" onclick="S.pinLender=PINS[${idx}].lender;render()">
+      <circle cx="${g.mx}" cy="${g.my}" r="12" fill="${S.pinLender === g.lender ? '#331b0d' : '#84e4be'}" stroke="#331b0d" stroke-width="1.5"/>
+      <text x="${g.mx}" y="${g.my + 4}" font-size="11" font-weight="700" text-anchor="middle" fill="${S.pinLender === g.lender ? '#fff' : '#331b0d'}">${g.items.length}</text>
+      <text x="${g.mx}" y="${g.below ? g.my + 25 : g.my - 16}" font-size="9" font-weight="500" text-anchor="middle" fill="#6b5a4b">${g.lender}</text></g>`).join("");
+  return `<svg class="map" viewBox="0 0 320 220"><g stroke="#ece6d9" stroke-width="7" stroke-linecap="round"><line x1="20" y1="60" x2="300" y2="40"/><line x1="40" y1="120" x2="310" y2="105"/><line x1="60" y1="180" x2="300" y2="165"/><line x1="110" y1="10" x2="140" y2="210"/><line x1="200" y1="20" x2="225" y2="210"/></g>
+    <g font-size="8" fill="#b4a98f"><text x="22" y="52">E Houston St</text><text x="42" y="135">Delancey St</text><text x="62" y="195">Canal St</text><text transform="translate(136 100) rotate(-82)">Bowery</text></g>
+    <circle cx="${YOU.mx}" cy="${YOU.my}" r="6" fill="#fff" stroke="#331b0d" stroke-width="2"/><text x="${YOU.mx + 10}" y="${YOU.my + 4}" font-size="9" fill="#331b0d">You</text>${pins}</svg>`;
+}
+function mapView(list) {
+  if (typeof L === "undefined") return mapSvg(list);
+  const groups = {}; list.forEach(i => { (groups[i.lender] = groups[i.lender] || { ...i, items: [] }).items.push(i); }); PINS = Object.values(groups);
+  return `<div id="map" class="lmap"></div>`;
+}
+function initMap() {
+  const el = $.querySelector("#map"); if (!el || typeof L === "undefined") return;
+  if (MAP) { try { MAP.remove(); } catch (e) {} MAP = null; }
+  MAP = L.map(el, { zoomControl: false, attributionControl: true, scrollWheelZoom: false }).setView([40.7208, -73.9915], 16);
+  const esri = "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/";
+  L.tileLayer(esri + "World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}", { maxZoom: 16, attribution: "© Esri, HERE, OpenStreetMap" }).addTo(MAP);
+  L.tileLayer(esri + "World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}", { maxZoom: 16, pane: "overlayPane", opacity: .9 }).addTo(MAP);
+  L.marker([YOU.lat, YOU.lng], { icon: L.divIcon({ className: "", html: '<div class="you"><div class="halo"></div><div class="dot"></div></div>', iconSize: [0, 0] }), interactive: false, zIndexOffset: -100 }).addTo(MAP);
+  PINS.forEach((g, idx) => {
+    const on = S.pinLender === g.lender;
+    const m = L.marker([g.lat, g.lng], { icon: L.divIcon({ className: "", html: `<div class="pinwrap ${on ? "on" : ""}"><div class="pin"><span>${g.items.length}</span></div><div class="pinlabel">${g.lender}</div></div>`, iconSize: [0, 0] }), zIndexOffset: on ? 500 : 0 }).addTo(MAP);
+    m.on("click", () => { S.pinLender = g.lender; render(); });
+  });
+  const pts = PINS.map(g => [g.lat, g.lng]).concat([[YOU.lat, YOU.lng]]);
+  MAP.fitBounds(L.latLngBounds(pts), { paddingTopLeft: [40, 56], paddingBottomRight: [40, 20], maxZoom: 16, animate: false });
+  setTimeout(() => { if (MAP) MAP.invalidateSize(); }, 60);
+}
+function cartBar() {
+  if (!S.cart.length || !["explore", "detail"].includes(S.screen)) return "";
+  const t = cartItems().reduce((s, i) => s + allIn(i).total, 0);
+  return `<div class="bar"><div><b>${S.cart.length} item${S.cart.length > 1 ? "s" : ""}</b> · ${cartLender()}<br><span class="tiny" style="color:#cfc6b4">${money(t)} all-in / day</span></div><button class="btn" onclick="startRequest()">Request</button></div>`;
+}
+function rentalCard(r) {
+  const names = r.items.map(id => item(id).name).join(", ");
+  return `<div class="card tap" onclick="S.rental=${r.id};go('rentalDetail')"><div class="item"><div class="thumb sm">${artFor(item(r.items[0]))}</div><div class="meta">
+    <div style="display:flex;justify-content:space-between;align-items:center"><h3 style="font-size:15px">${r.lender}</h3>${statusPill(r.status)}</div>
+    <div class="sub" style="margin-top:2px">${names}</div><div class="tiny" style="margin-top:4px">${r.start}${r.end !== r.start ? " to " + r.end : ""} · pickup ${r.slot}</div></div></div></div>`;
+}
+
+function camTile(which, prompt, doneLabel) {
+  if (S.cam === which) return `<div class="upload live"><video id="cam" autoplay playsinline muted style="${which === "selfie" ? "transform:scaleX(-1)" : ""}"></video><div class="ctl"><button class="btn soft" onclick="cancelCam()">Cancel</button><button class="btn primary" onclick="capture()">Capture</button></div></div>`;
+  if (S[which]) return `<div class="upload done">${S[which + "Img"] ? `<img src="${S[which + "Img"]}" alt="">` : `<div style="padding:20px 26px 48px;color:var(--mint-ink)">✓ ${doneLabel}<br><span class="tiny">Camera unavailable in this browser, simulated capture</span></div>`}<span class="tag">✓ ${doneLabel}</span><button class="retake" onclick="retake('${which}')">Retake</button></div>`;
+  return `<div class="upload" onclick="openCam('${which}')">${prompt}</div>`;
+}
+
+// ---------- screens ----------
+const SCREENS = {
+  welcome: () => `<div class="hero center"><div class="logo" style="margin-top:120px">circle<b>.</b></div><p class="sub" style="margin-top:8px">Rent display fixtures from verified<br>neighbors in Lower Manhattan.</p></div>
+    <div style="margin-top:220px"><button class="btn primary" onclick="go('signup')">Create account</button><button class="btn ghost" onclick="go('signin')">Sign in</button></div>`,
+  signup: () => `<button class="back" onclick="go('welcome')">‹ Back</button><h1>Create your account</h1><p class="sub">Lenders see your verified name and rental history before they approve you.</p>
+    <div class="field"><label>Full name</label><input id="name" placeholder="Vicky Tran"></div>
+    <div class="field"><label>Email</label><input id="email" type="email" placeholder="vicky@example.com"></div>
+    <div class="field"><label>Password</label><input type="password" placeholder="At least 8 characters"></div>
+    <div class="field"><label>I mostly want to</label><select><option>Rent equipment</option><option>Lend equipment</option><option>Both</option></select></div>
+    <button class="btn primary" onclick="signUp()">Continue</button><p class="tiny center" style="margin-top:12px">By continuing you agree to Circle's rental terms and deposit policy.</p>`,
+  signin: () => `<button class="back" onclick="go('welcome')">‹ Back</button><h1>Welcome back</h1>
+    <div class="field"><label>Email</label><input type="email" value="vicky@example.com"></div>
+    <div class="field"><label>Password</label><input type="password" value="••••••••"></div>
+    <button class="btn primary" onclick="signIn()">Sign in</button><p class="center" style="margin-top:14px"><button class="link" onclick="go('signup')">New here? Create an account</button></p>`,
+  verify: () => `<h1>Verify your identity</h1><p class="sub">One-time check so lenders can trust you with their gear. Takes about a minute.</p>
+    <h2>1. Government ID</h2>${camTile("idFront", "Tap to photograph the front of your ID", "ID captured")}
+    <h2>2. Selfie</h2>${camTile("selfie", "Tap to take a quick selfie", "Selfie captured")}
+    <p class="tiny" style="margin-top:14px">We match the two and delete the images after verification. Your ID number is never shown to lenders.</p>
+    <button class="btn primary" onclick="finishVerify()">Verify me</button><button class="btn soft" onclick="stopCam();S.user.verified=false;go('explore','explore')">Skip for now</button>`,
+  verified: () => `<div class="center" style="padding-top:120px">${S.selfieImg ? `<div class="avatar" style="width:96px;height:96px;margin:0 auto 16px;border:3px solid var(--mint)"><img src="${S.selfieImg}" alt=""></div>` : `<div class="check">${ICON.check}</div>`}<h1>You're verified</h1><p class="sub">Lenders will see a verified badge next to your name. Welcome to Circle, ${S.user.name.split(" ")[0]}.</p></div>
+    <button class="btn primary" style="margin-top:200px" onclick="go('explore','explore')">Start browsing</button>`,
+  explore: () => {
+    const list = results(); const picked = S.pinLender ? list.filter(i => i.lender === S.pinLender) : [];
+    return `<h1 style="margin-top:4px">Hi ${S.user ? S.user.name.split(" ")[0] : "there"}</h1><p class="sub">What do you need for your next pop-up?</p>
+      <div class="search">${ICON.explore.replace("<svg", '<svg style="width:18px;height:18px;stroke:#a3968a;fill:none;stroke-width:2"')}<input placeholder="Search racks, mirrors, tables…"><input type="date" value="${S.date}" onchange="S.date=this.value;render()" style="flex:none;width:120px;font-size:12px;color:#6b5a4b"></div>
+      <div class="chips">${CATS.map(([k, v]) => `<button class="chip ${S.cat === k ? "on" : ""}" onclick="S.cat='${k}';S.pinLender=null;render()">${v}</button>`).join("")}</div>
+      <div class="seg"><button class="${S.view === "list" ? "on" : ""}" onclick="S.view='list';render()">List</button><button class="${S.view === "map" ? "on" : ""}" onclick="S.view='map';render()">Map</button></div>
+      <p class="tiny">${list.length} available on ${S.date} · within 1.5 mi · sorted by distance</p>
+      ${S.view === "list" ? list.map(i => itemCard(i)).join("") : mapView(list) + (picked.length ? `<p class="tiny" style="margin-top:10px">${S.pinLender} · ${picked[0].area} · ${picked[0].dist} mi</p>` + picked.map(i => itemCard(i)).join("") : `<p class="tiny" style="margin-top:10px">Tap a pin to see that lender's items.</p>`)}
+      <div style="height:80px"></div>`;
+  },
+  detail: () => {
+    const i = item(S.item), a = allIn(i), L = LENDERS[i.lender], more = ITEMS.filter(x => x.lender === i.lender && x.id !== i.id);
+    return `<button class="back" onclick="go('explore')">‹ Back</button><div class="thumb lg" style="padding:0">${artFor(i)}</div>
+      <h1>${i.name}</h1><p class="sub">${i.sub} · ${stars(i.rating)} (${i.reviews.length + 3} reviews)</p>
+      <div class="card"><div class="list-row"><span>Rental</span><span>$${i.price} / day</span></div><div class="list-row"><span>Service fee (10%)</span><span>${money(a.fee)}</span></div><div class="list-row"><span>Refundable deposit</span><span>$${i.deposit}</span></div><div class="list-row total"><span>All-in for 1 day</span><span>${money(a.total)}</span></div></div>
+      <h2>Specs</h2><div class="card" style="margin-top:0">${i.specs.map(s => `<div class="list-row"><span>${s}</span></div>`).join("")}</div>
+      <h2>Condition record</h2><div class="card" style="margin-top:0"><div style="display:flex;justify-content:space-between"><b>${i.cond}</b><span class="tiny">photos dated ${i.photoDate}</span></div>${i.condNote ? `<p class="sub" style="margin-top:4px">${i.condNote}</p>` : ""}<div class="row" style="margin-top:10px"><div class="thumb" style="width:auto;height:64px;opacity:.75">${artFor(i)}</div><div class="thumb" style="width:auto;height:64px;font-size:10px">${i.photoDate} · DETAIL</div></div></div>
+      <h2>Lender</h2><div class="card tap" style="margin-top:0" onclick="S.pinLender=null"><div style="display:flex;justify-content:space-between;align-items:center"><div><b>${i.lender}</b><div class="tiny">${L.area} · ${L.dist} mi · lending since ${L.since}</div></div></div><div style="margin-top:8px">${lenderLine(L)}</div><p class="tiny" style="margin-top:8px">Pickup slots: ${L.slots.join(" · ")}</p></div>
+      <h2>Reviews</h2>${i.reviews.length ? i.reviews.map(([n, s, t]) => `<div class="card" style="margin-top:0;margin-bottom:8px"><div style="display:flex;justify-content:space-between"><b style="font-size:14px">${n}</b><span class="star">${"★".repeat(s)}</span></div><p class="sub" style="margin-top:4px">${t}</p></div>`).join("") : `<p class="tiny">No reviews on this item yet. ${i.lender} has ${L.reviewCount} reviews overall.</p>`}
+      ${more.length ? `<h2>Also from ${i.lender} · same pickup</h2>` + more.map(m => `<div class="card" style="margin-top:0;margin-bottom:8px"><div class="toggle"><div><b style="font-size:14px">${m.name}</b> <span class="tiny">${m.sub}</span><div class="tiny">${money(allIn(m).total)} all-in / day</div></div><button class="btn sm ${inCart(m.id) ? "soft" : "mint"}" onclick="toggleCart(${m.id})">${inCart(m.id) ? "Added" : "Add"}</button></div></div>`).join("") : ""}
+      <button class="btn ${inCart(i.id) ? "soft" : "primary"}" onclick="toggleCart(${i.id})">${inCart(i.id) ? "Remove from request" : "Add to request"}</button><div style="height:80px"></div>`;
+  },
+  request: () => {
+    const items = cartItems(), L = LENDERS[cartLender()];
+    return `<button class="back" onclick="go('explore')">‹ Back</button><h1>Your request</h1><p class="sub">From ${cartLender()} · one pickup</p>
+      ${items.map(i => `<div class="card"><div class="toggle"><div><b style="font-size:14px">${i.name}</b> <span class="tiny">${i.sub}</span><div class="tiny">$${i.price}/day · $${i.deposit} deposit</div></div><button class="link" onclick="toggleCart(${i.id});if(!S.cart.length)go('explore')">Remove</button></div></div>`).join("")}
+      <p style="margin-top:10px"><button class="link" onclick="go('explore')">+ Add another item from ${cartLender()}</button></p>
+      <div class="row"><div class="field"><label>Start</label><input type="date" id="start" value="${S.start}"></div><div class="field"><label>End</label><input type="date" id="end" value="${S.end}"></div></div>
+      <div class="field"><label>Pickup slot · set by lender</label>${L.slots.map(s => `<label style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink);padding:10px 0;border-bottom:1px solid var(--hair)"><input type="radio" name="slot" value="${s}" style="width:auto;margin:0" ${S.slot === s ? "checked" : ""}>${s}</label>`).join("")}</div>
+      <div class="field"><label>Message to lender · optional</label><textarea id="note" rows="2" placeholder="I'm at the Chelsea Flea Saturday, will bring a cart.">${S.note}</textarea></div>
+      <button class="btn primary" onclick="submitRequest()">Continue to payment</button>`;
+  },
+  pay: () => {
+    const t = totals();
+    return `<button class="back" onclick="go('request')">‹ Back</button><h1>Review and pay</h1><p class="sub">${t.items.length} item${t.items.length > 1 ? "s" : ""} · ${S.start}${S.end !== S.start ? " to " + S.end : ""} · ${t.d} day${t.d > 1 ? "s" : ""} · pickup ${S.slot}</p>
+      <div class="card">${t.items.map(i => `<div class="list-row"><span>${i.name} · $${i.price} × ${t.d}</span><span>${money(i.price * t.d)}</span></div>`).join("")}<div class="list-row"><span>Service fee (10%)</span><span>${money(t.fee)}</span></div>${S.protect ? `<div class="list-row"><span>Damage protection</span><span>${money(t.prot)}</span></div>` : ""}<div class="list-row"><span>Deposits · held, refunded after return</span><span>${money(t.dep)}</span></div><div class="list-row total"><span>Charged today</span><span>${money(t.total)}</span></div></div>
+      <div class="card"><div class="toggle"><div><b style="font-size:14px">Damage protection</b><p class="tiny">Covers accidental damage up to the deposit. 8% of rental.</p></div><button class="switch ${S.protect ? "on" : ""}" onclick="S.protect=!S.protect;render()"></button></div></div>
+      <h2>Payment</h2><div class="card" style="margin-top:0"><div class="toggle"><div><b style="font-size:14px">Visa ending 4242</b><p class="tiny">Deposit is a hold, not a charge. Released 2 days after return check.</p></div><button class="link">Change</button></div></div>
+      <p class="tiny" style="margin-top:12px">Rental payment is held by Circle and released to the lender after you confirm pickup. If the lender declines, everything is refunded.</p>
+      <button class="btn primary" onclick="pay()">Pay ${money(t.total)}</button>`;
+  },
+  done: () => {
+    const r = S.rentals.find(x => x.id === S.rental), L = LENDERS[r.lender];
+    return `<div class="center" style="padding-top:40px"><div class="check">${ICON.check}</div><h1>Request sent</h1><p class="sub">${r.lender} usually responds within a few hours.</p></div>
+      <div class="card" style="margin-top:24px">${r.items.map(id => `<div class="list-row"><span>${item(id).name}</span><span class="tiny">${item(id).sub}</span></div>`).join("")}<div class="list-row"><span>Dates</span><span>${r.start}${r.end !== r.start ? " to " + r.end : ""}</span></div><div class="list-row"><span>Pickup</span><span>${r.slot}</span></div><div class="list-row"><span>Status</span>${statusPill(r.status)}</div></div>
+      <h2>Pickup</h2><div class="card" style="margin-top:0"><b style="font-size:14px">${L.addr}</b><div class="tiny">${L.dist} mi from you</div><p class="sub" style="margin-top:6px">${L.instr}</p><p class="tiny" style="margin-top:6px">Door code and contact number unlock once approved.</p></div>
+      <button class="btn primary" onclick="go('rentals','rentals')">View my rentals</button><button class="btn soft" onclick="go('explore','explore')">Keep browsing</button>`;
+  },
+  rentals: () => {
+    const active = S.rentals.filter(r => ["requested", "approved", "issue"].includes(r.status)), past = S.rentals.filter(r => ["returned", "cancelled", "declined"].includes(r.status));
+    return `<h1 style="margin-top:4px">Rentals</h1>${active.length ? "<h2>Upcoming</h2>" + active.map(rentalCard).join("") : ""}${past.length ? "<h2>Past</h2>" + past.map(rentalCard).join("") : ""}`;
+  },
+  rentalDetail: () => {
+    const r = S.rentals.find(x => x.id === S.rental), L = LENDERS[r.lender];
+    const canCancel = ["requested", "approved"].includes(r.status), feePct = r.status === "requested" ? 0 : 0.10;
+    return `<button class="back" onclick="go('rentals','rentals')">‹ Rentals</button><div style="display:flex;justify-content:space-between;align-items:center"><h1>${r.lender}</h1>${statusPill(r.status)}</div><p class="sub">${r.start}${r.end !== r.start ? " to " + r.end : ""} · pickup ${r.slot}</p>
+      <div class="card">${r.items.map(id => `<div class="list-row"><span>${item(id).name}</span><span class="tiny">${item(id).sub}</span></div>`).join("")}<div class="list-row"><span>Paid</span><span>${money(r.total)}</span></div></div>
+      <h2>Pickup</h2><div class="card" style="margin-top:0"><b style="font-size:14px">${L.addr}${r.status === "approved" ? ", buzzer 2 · (212) 555-0141" : ""}</b><div class="tiny">${L.dist} mi</div><p class="sub" style="margin-top:6px">${L.instr}</p></div>
+      ${r.status === "issue" ? `<div class="card" style="border-color:#e6c9c3"><b style="font-size:14px;color:var(--red)">Issue under review</b><p class="sub" style="margin-top:4px">Circle support will reply within 2 hours. Your deposit is frozen until resolved.</p></div>` : ""}
+      <button class="btn soft" onclick="go('chat')">Message ${r.lender.split(" ")[0]}</button>
+      ${r.status === "approved" ? `<button class="btn soft" onclick="go('report')">Report a problem with the gear</button>` : ""}
+      ${r.status === "returned" && !r.reviewed ? `<button class="btn mint" onclick="S.draftStars=0;go('review')">Leave a review</button>` : ""}
+      ${r.status === "returned" && r.reviewed ? `<p class="tiny center" style="margin-top:12px">You reviewed this rental. Deposit of ${money(r.items.reduce((s, id) => s + item(id).deposit, 0))} released Oct 13.</p>` : ""}
+      ${canCancel ? `<button class="btn danger" onclick="S.cancelTarget=${r.id};go('cancel')">Cancel request${feePct ? " · 10% fee" : " · free"}</button>` : ""}`;
+  },
+  cancel: () => {
+    const r = S.rentals.find(x => x.id === S.cancelTarget); const rental = r.items.reduce((s, id) => s + item(id).price, 0); const fee = r.status === "requested" ? 0 : +(rental * 0.10).toFixed(2);
+    return `<button class="back" onclick="go('rentalDetail')">‹ Back</button><h1>Cancel this rental?</h1><p class="sub">${r.status === "requested" ? "The lender hasn't approved yet, so there is no fee." : "The lender already approved and blocked these dates for you, so a 10% cancellation fee applies."}</p>
+      <div class="card"><div class="list-row"><span>Paid</span><span>${money(r.total)}</span></div><div class="list-row"><span>Cancellation fee</span><span>${fee ? "−" + money(fee) : "$0.00"}</span></div><div class="list-row total"><span>Refund to Visa 4242</span><span>${money(r.total - fee)}</span></div></div>
+      <p class="tiny" style="margin-top:12px">Cancellations within 24 hours of pickup are charged 50%. Frequent cancellations show on your profile.</p>
+      <button class="btn danger" onclick="cancelRental(${r.id})">Confirm cancellation</button><button class="btn soft" onclick="go('rentalDetail')">Keep my rental</button>`;
+  },
+  report: () => {
+    const r = S.rentals.find(x => x.id === S.rental);
+    return `<button class="back" onclick="go('rentalDetail')">‹ Back</button><h1>Report a problem</h1><p class="sub">Tell Circle what's wrong. Your deposit is frozen while we review, so you're not charged for damage you didn't cause.</p>
+      <div class="field"><label>What happened?</label><select><option>Item is broken or unsafe</option><option>Item doesn't match the listing</option><option>Lender didn't show up</option><option>Something else</option></select></div>
+      <div class="field"><label>Details</label><textarea rows="3" placeholder="The bowed shelf collapsed when I loaded it…"></textarea></div>
+      <div class="field"><label>Photos</label><div class="upload">Tap to add photos of the issue</div></div>
+      <button class="btn primary" onclick="reportIssue(${r.id})">Send to Circle support</button>`;
+  },
+  review: () => {
+    const r = S.rentals.find(x => x.id === S.rental);
+    return `<button class="back" onclick="go('rentalDetail')">‹ Back</button><h1>How was ${r.lender}?</h1><p class="sub">Your review shows on the lender's profile and helps the next renter decide.</p>
+      <div class="card"><div class="stars">${[1, 2, 3, 4, 5].map(n => `<span class="${S.draftStars >= n ? "on" : ""}" onclick="S.draftStars=${n};render()">★</span>`).join("")}</div>
+      <div class="field"><label>Condition as described?</label><select><option>Yes, exactly</option><option>Mostly</option><option>No</option></select></div>
+      <div class="field"><label>Pickup on time?</label><select><option>Yes</option><option>A few minutes late</option><option>No</option></select></div>
+      <div class="field"><label>Anything else</label><textarea rows="3" placeholder="Dana was great, steamer heated up fast."></textarea></div></div>
+      <button class="btn primary" onclick="submitReview(${r.id})">Post review</button>`;
+  },
+  chat: () => {
+    const r = S.rentals.find(x => x.id === S.rental);
+    return `<button class="back" onclick="go('rentalDetail')">‹ Back</button><h1 style="font-size:20px">${r.lender}</h1><p class="tiny">${r.items.map(id => item(id).name).join(", ")} · ${r.start}</p><div class="divider"></div>
+      ${r.msgs.length ? r.msgs.map(([who, t, ts]) => `<div class="msg ${who}">${t}<span class="t">${ts}</span></div>`).join("") : `<p class="tiny center" style="margin-top:40px">No messages yet. Say hi, or ask about pickup.</p>`}
+      <div class="compose"><input id="compose" placeholder="Message…" onkeydown="if(event.key==='Enter')sendMsg(${r.id})"><button onclick="sendMsg(${r.id})">↑</button></div>`;
+  },
+  listings: () => {
+    const mine = myItems();
+    return `<div style="display:flex;justify-content:space-between;align-items:flex-end"><div><h1 style="margin-top:4px">Your listings</h1><p class="sub">Lending as ${S.me} <span class="pill">✓ ID verified</span></p></div></div>
+      <button class="btn mint" onclick="S.listing=false;S.listingImg=null;go('listItem')">+ List an item</button>
+      ${mine.map(i => { const booked = [...S.requests, ...S.rentals.filter(r => r.lender === S.me)].filter(r => r.status === "approved" && r.items.includes(i.id)); return `<div class="card"><div class="item"><div class="thumb sm">${artFor(i)}</div><div class="meta">
+        <div style="display:flex;justify-content:space-between;align-items:center"><h3 style="font-size:15px">${i.name}</h3>${booked.length ? `<span class="pill">Booked ${booked[0].start.slice(5)}</span>` : (i.blocked && i.blocked.length ? '<span class="pill warn">Dates blocked</span>' : '<span class="pill grey">Listed</span>')}</div>
+        <div class="tiny" style="margin-top:2px">${i.sub} · $${i.price}/day · $${i.deposit} deposit · ${i.cond}</div>
+        <div class="tiny">Pickup: ${i.slots.join(" · ")}</div>
+        ${(i.blocked || []).map(([a, b], idx) => `<div class="tiny" style="margin-top:4px">Blocked ${a} to ${b} <button class="link" onclick="unblock(${i.id},${idx})">unblock</button></div>`).join("")}
+        <div style="display:flex;gap:12px;margin-top:8px"><button class="link" onclick="S.blockTarget=${i.id};go('blockDates')">Block dates</button><button class="link" style="color:var(--ink-3)" onclick="removeListing(${i.id})">Remove</button></div>
+      </div></div></div>`; }).join("")}`;
+  },
+  listItem: () => `<button class="back" onclick="stopCam();go('listings','listings')">‹ Listings</button><h1>List an item</h1><p class="sub">Takes about two minutes. You approve every request before anything is booked.</p>
+    <h2>Photo</h2>${camTile("listing", "Tap to photograph the item", "Photo added")}
+    <div class="row"><div class="field"><label>Category</label><select id="l_cat">${CATS.filter(c => c[0] !== "all").map(([k, v]) => `<option value="${k}">${v}</option>`).join("")}</select></div><div class="field"><label>Condition</label><select id="l_cond"><option>Good</option><option>Fair</option><option>Like new</option></select></div></div>
+    <div class="field"><label>Item name</label><input id="l_name" placeholder="Rolling clothing rack"></div>
+    <div class="field"><label>Short description</label><input id="l_sub" placeholder="Heavy duty, folds flat"></div>
+    <div class="field"><label>Condition notes · shown to renters</label><input id="l_condnote" placeholder="Minor scuffs on base"></div>
+    <div class="field"><label>Specs · comma separated</label><input id="l_specs" placeholder="Adjustable 50–65 in, holds ~60 lb"></div>
+    <div class="row"><div class="field"><label>Price per day</label><input id="l_price" type="number" placeholder="12" min="1"></div><div class="field"><label>Deposit</label><input id="l_deposit" type="number" placeholder="40" min="0"></div></div>
+    <div class="row"><div class="field"><label>Available from</label><input id="l_from" type="date" value="2026-10-15"></div><div class="field"><label>Until</label><input id="l_to" type="date" value="2026-12-31"></div></div>
+    <div class="field"><label>Pickup slots you can do</label>${SLOT_OPTIONS.map(sl => `<label style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink);padding:8px 0;border-bottom:1px solid var(--hair)"><input type="checkbox" name="l_slot" value="${sl}" style="width:auto;margin:0" ${LENDERS[S.me].slots.includes(sl) ? "checked" : ""}>${sl}</label>`).join("")}</div>
+    <p class="tiny" style="margin-top:12px">Circle takes 10% of each rental. Deposits are held on the renter's card and released after your return check.</p>
+    <button class="btn primary" onclick="submitListing()">Publish listing</button>`,
+  blockDates: () => { const i = item(S.blockTarget); return `<button class="back" onclick="go('listings','listings')">‹ Listings</button><h1>Block dates</h1><p class="sub">${i.name} will disappear from search for these dates, for your own events or repairs.</p>
+    <div class="row"><div class="field"><label>From</label><input id="b_from" type="date" value="2026-10-18"></div><div class="field"><label>To</label><input id="b_to" type="date" value="2026-10-19"></div></div>
+    <button class="btn primary" onclick="blockDates(${i.id})">Block these dates</button>`; },
+  requests: () => {
+    const q = allRequests(); const open = q.filter(x => x.status === "requested"), done = q.filter(x => x.status !== "requested");
+    const card = x => `<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><h3 style="font-size:15px">${x.renter}</h3>${x.status === "requested" ? '<span class="pill warn">Needs reply</span>' : statusPill(x.status === "declined" ? "cancelled" : x.status)}</div>
+      <div style="margin-top:6px">${x.verified ? '<span class="pill">✓ ID verified</span>' : '<span class="pill grey">Not verified</span>'} <span class="tiny">${x.completed} completed · ${x.noShows} no-shows${x.rating ? " · ★ " + x.rating.toFixed(1) : " · new renter"}</span></div>
+      <div class="divider"></div>
+      ${x.items.map(id => `<div class="list-row"><span>${item(id) ? item(id).name : "Item"}</span><span class="tiny">$${item(id) ? item(id).price : 0}/day</span></div>`).join("")}
+      <div class="list-row"><span>Dates</span><span>${x.start}${x.end !== x.start ? " to " + x.end : ""}</span></div><div class="list-row"><span>Pickup</span><span>${x.slot}</span></div><div class="list-row"><span>You earn</span><span><b>${money(netOf(x))}</b> <span class="tiny">after 10% fee</span></span></div>
+      ${x.note ? `<p class="sub" style="margin-top:8px">“${x.note}”</p>` : ""}
+      ${x.status === "requested" ? `<div class="row" style="margin-top:10px"><button class="btn danger" style="margin:0" onclick="decide(${x.id},'declined')">Decline</button><button class="btn mint" style="margin:0" onclick="decide(${x.id},'approved')">Approve</button></div>` : ""}</div>`;
+    return `<h1 style="margin-top:4px">Requests</h1><p class="sub">Approve within 24 hours or the renter is refunded automatically.</p>${open.length ? open.map(card).join("") : '<p class="tiny" style="margin-top:14px">No open requests.</p>'}${done.length ? "<h2>Answered</h2>" + done.map(card).join("") : ""}`;
+  },
+  earnings: () => {
+    const approved = allRequests().filter(x => x.status === "approved" || x.status === "returned");
+    const net = netOf;
+    const total = approved.reduce((s, x) => s + net(x), 0);
+    return `<h1 style="margin-top:4px">Earnings</h1>
+      <div class="card"><div class="row"><div class="stat"><b>${money(total)}</b><span>this month</span></div><div class="stat"><b>${approved.length}</b><span>bookings</span></div><div class="stat"><b>${myItems().length}</b><span>listed</span></div></div><div class="divider"></div><p class="tiny">Paid to your bank 2 days after each return check. Deposits never touch your account unless you file a claim.</p></div>
+      <h2>Upcoming payouts</h2>${approved.length ? approved.map(x => `<div class="card" style="margin-top:0;margin-bottom:8px"><div class="toggle"><div><b style="font-size:14px">${x.renter}</b><div class="tiny">${x.items.map(id => item(id) ? item(id).name : "").join(", ")} · ${x.start}</div></div><b>${money(net(x))}</b></div></div>`).join("") : '<p class="tiny">Approve a request to see it here.</p>'}
+      <h2>By item</h2><div class="card" style="margin-top:0">${myItems().map(i => `<div class="list-row"><span>${i.name}</span><span>${money(approved.filter(x => x.items.includes(i.id)).reduce((s, x) => s + i.price * daysBetween(x.start, x.end) * (1 - FEE), 0))}</span></div>`).join("")}</div>`;
+  },
+  inbox: () => `<h1 style="margin-top:4px">Messages</h1>${S.rentals.filter(r => r.msgs.length).map(r => `<div class="card tap" onclick="S.rental=${r.id};go('chat')"><div class="toggle"><div><b style="font-size:14px">${r.lender}</b><p class="sub" style="margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px">${r.msgs[r.msgs.length - 1][1]}</p></div><span class="tiny">${r.msgs[r.msgs.length - 1][2].split(",")[0]}</span></div></div>`).join("") || `<p class="tiny">No conversations yet.</p>`}`,
+  profile: () => {
+    const u = S.user || { name: "Vicky Tran", verified: true }; const done = S.rentals.filter(r => r.status === "returned").length;
+    return `<div style="display:flex;align-items:center;gap:14px;margin-top:16px"><div class="avatar">${S.selfieImg ? `<img src="${S.selfieImg}" alt="">` : u.name.split(" ").map(w => w[0]).join("")}</div><div><h1 style="margin:0;font-size:22px">${u.name}</h1><div class="tiny">Renter · Lower East Side · member since Sep 2026</div><div style="margin-top:6px">${u.verified ? '<span class="pill">✓ ID verified</span>' : '<span class="pill warn">Not verified</span> <button class="link" onclick="S.user=S.user||{name:\'Vicky Tran\'};go(\'verify\')">Verify now</button>'}</div></div></div>
+      <h2>What lenders see</h2><div class="card" style="margin-top:0"><div class="row"><div class="stat"><b>${done + 3}</b><span>completed</span></div><div class="stat"><b>0</b><span>no-shows</span></div><div class="stat"><b>0</b><span>damage claims</span></div><div class="stat"><b>5.0</b><span>from lenders</span></div></div><div class="divider"></div><p class="tiny">Lenders see this summary, your verified badge, and your reviews from other lenders before they approve a request. They never see your ID or card details.</p></div>
+      <h2>Reviews from lenders</h2><div class="card" style="margin-top:0"><div style="display:flex;justify-content:space-between"><b style="font-size:14px">Bowery Events Co.</b><span class="star">★★★★★</span></div><p class="sub" style="margin-top:4px">On time both ways, gear came back clean. Would lend again.</p></div>
+      <h2>Account</h2><div class="card" style="margin-top:0"><div class="list-row"><span>Payment method</span><span class="tiny">Visa 4242</span></div><div class="list-row"><span>Default pickup area</span><span class="tiny">Delancey & Essex</span></div><div class="list-row"><span>Notifications</span><span class="tiny">Push + email</span></div></div>
+      <div class="card"><div class="toggle"><div><b style="font-size:14px">${S.role === "lender" ? "Lending mode" : "Lend your gear"}</b><p class="tiny">${S.role === "lender" ? "Switch back to browse and rent." : "List items, approve requests and track earnings."}</p></div><button class="btn sm ${S.role === "lender" ? "soft" : "mint"}" onclick="switchRole('${S.role === "lender" ? "renter" : "lender"}')">${S.role === "lender" ? "Switch to renting" : "Start lending"}</button></div></div>
+      <button class="btn soft" onclick="stopCam();S.user=null;S.idFront=false;S.selfie=false;S.idImg=null;S.selfieImg=null;go('welcome')">Sign out</button>`;
+  },
+};
+
+function render() {
+  const authless = ["welcome", "signup", "signin", "verify", "verified"];
+  const showTabs = !authless.includes(S.screen);
+  const tabDefs = S.role === "lender" ? [["listings", "Listings"], ["requests", "Requests"], ["earnings", "Earnings"], ["profile", "Profile"]] : [["explore", "Explore"], ["rentals", "Rentals"], ["inbox", "Inbox"], ["profile", "Profile"]];
+  const openCount = S.role === "lender" ? allRequests().filter(x => x.status === "requested").length : 0;
+  const tabs = showTabs ? `<div class="tabs">${tabDefs.map(([k, v]) => `<button class="${S.tab === k ? "on" : ""}" onclick="stopCam();go('${k}','${k}')">${ICON[k]}${v}${k === "requests" && openCount ? `<span class="pill" style="position:absolute;margin-left:28px;margin-top:-6px;padding:0 5px;background:var(--red);color:#fff">${openCount}</span>` : ""}</button>`).join("")}</div>` : "";
+  const bar = cartBar();
+  $.innerHTML = `<div class="status"><span>9:41</span><span>●●● ▲ ▮</span></div><div class="screen">${SCREENS[S.screen]()}</div>${bar}${tabs}<div class="toast ${bar ? "up" : ""}"></div>`;
+  if (S.cam) attachCam();
+  if (S.screen === "explore" && S.view === "map") initMap();
+}
+render();
+</script>
+</body>
+</html>

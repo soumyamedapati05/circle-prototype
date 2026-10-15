@@ -1,0 +1,292 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Circle. v2 prototype</title>
+<style>
+  :root { --cream: #faf7f0; --mint: #84e4be; --mint-dark: #3fbf8f; --brown: #331b0d; --tan: #8c7753; --line: #d9d2c3; }
+  body { font-family: Arial, Helvetica, sans-serif; background: #e9e4d8; margin: 0; padding: 20px; color: var(--brown); }
+  #phone { width: 360px; min-height: 640px; margin: 0 auto; background: var(--cream); border: 2px solid var(--brown); border-radius: 12px; padding: 12px; box-sizing: border-box; position: relative; }
+  .topbar { font-size: 11px; color: var(--tan); letter-spacing: .08em; text-transform: uppercase; border-bottom: 1px solid var(--line); padding-bottom: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  .logo { font-size: 30px; font-weight: bold; letter-spacing: -1px; }
+  .logo span { color: var(--mint); }
+  h2 { font-size: 12px; margin: 14px 0 6px; color: var(--tan); text-transform: uppercase; letter-spacing: .08em; }
+  label { display: block; font-size: 13px; margin: 8px 0 2px; }
+  input, select, textarea { width: 100%; box-sizing: border-box; font: inherit; font-size: 14px; padding: 7px; border: 1px solid var(--brown); border-radius: 6px; background: #fff; color: var(--brown); }
+  button { font: inherit; font-size: 14px; padding: 8px 12px; border: 1px solid var(--brown); border-radius: 6px; background: #fff; color: var(--brown); cursor: pointer; margin-top: 10px; }
+  button.primary { background: var(--mint); border-color: var(--mint-dark); width: 100%; font-weight: bold; }
+  button.link { border: none; background: none; padding: 0; text-decoration: underline; margin: 0 0 8px; font-size: 13px; }
+  button.small { font-size: 12px; padding: 3px 8px; margin: 0; }
+  .toggle { display: flex; margin: 8px 0; }
+  .toggle button { flex: 1; margin: 0; border-radius: 0; }
+  .toggle button:first-child { border-radius: 6px 0 0 6px; }
+  .toggle button:last-child { border-radius: 0 6px 6px 0; border-left: none; }
+  .toggle button.on { background: var(--brown); color: var(--cream); }
+  .card { border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: 8px; margin: 8px 0; cursor: pointer; }
+  .card:hover { border-color: var(--mint-dark); }
+  .card.static { cursor: default; }
+  .badge { display: inline-block; background: var(--mint); color: var(--brown); font-size: 11px; padding: 1px 6px; border-radius: 10px; margin-left: 4px; }
+  .badge.off { background: var(--line); }
+  .muted { color: var(--tan); font-size: 12px; }
+  .allin { font-weight: bold; }
+  .photo { display: inline-block; width: 96px; height: 72px; background: var(--line); border-radius: 6px; font-size: 11px; text-align: center; line-height: 72px; margin: 4px 4px 0 0; color: var(--tan); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  td { padding: 4px 0; border-bottom: 1px dotted var(--line); }
+  td:last-child { text-align: right; }
+  .total td { font-weight: bold; border-bottom: 2px solid var(--brown); }
+  .note { background: #fff6d6; border: 1px dashed var(--tan); border-radius: 6px; padding: 6px; font-size: 12px; margin: 8px 0; }
+  .row { display: flex; gap: 8px; }
+  .row > * { flex: 1; }
+  .cartbar { position: sticky; bottom: 0; background: var(--brown); color: var(--cream); padding: 8px 10px; border-radius: 8px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+  .cartbar button { margin: 0; background: var(--mint); border-color: var(--mint); font-weight: bold; }
+  svg.map { width: 100%; height: auto; background: #fff; border: 1px solid var(--line); border-radius: 8px; display: block; }
+  svg.map .pin { cursor: pointer; }
+  svg.map .pin:hover circle { stroke-width: 3; }
+  .pin-card { border-left: 4px solid var(--mint); }
+  .addr { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 8px; font-size: 13px; }
+</style>
+</head>
+<body>
+<div id="phone"></div>
+
+<script>
+// ---------- mock data (Lower Manhattan pilot) ----------
+const LENDERS = {
+  "Second Life Vintage": { area: "Lower East Side", dist: 0.4, mx: 215, my: 95, verified: true, addr: "141 Orchard St (between Rivington & Delancey)", instr: "Ring buzzer 2. Gear is by the back door; bring a cart or a friend for the racks.", slots: ["Fri 5–7pm", "Sat 8–9am", "Sun 8–9am"] },
+  "Maya K. (individual)": { area: "Chinatown", dist: 0.9, mx: 150, my: 150, verified: false, addr: "Mott St & Grand St (exact address after approval)", instr: "Meet on the corner. Rack folds flat and fits in a cab.", slots: ["Sat 10–11am"] },
+  "Bowery Events Co.": { area: "NoHo", dist: 1.2, mx: 120, my: 45, verified: true, addr: "315 Bowery, loading dock on E 2nd St", instr: "Ask for Dana at the dock. Steamer comes with its cord and water cup.", slots: ["Fri 4–6pm", "Sat 9–10am"] },
+  "Orchard St Boutique": { area: "Lower East Side", dist: 0.6, mx: 268, my: 152, verified: true, addr: "92 Orchard St", instr: "Come to the front counter. Shelving breaks down into 4 flat pieces.", slots: ["Sat 8–9am"], below: true },
+};
+const ITEMS = [
+  { id: 1, name: "Rolling clothing rack (heavy duty)", cat: "racks", lender: "Second Life Vintage", price: 12, deposit: 40, cond: "Good – minor scuffs on base", specs: "Adjustable 50–65 in, holds ~60 lb, folds flat", photoDate: "Oct 9, 2026" },
+  { id: 2, name: "Rolling clothing rack (basic)", cat: "racks", lender: "Maya K. (individual)", price: 8, deposit: 30, cond: "Fair – wheel sticks a little", specs: "Fixed 60 in, holds ~40 lb", photoDate: "Sep 28, 2026" },
+  { id: 3, name: "Full-length mirror on stand", cat: "mirrors", lender: "Second Life Vintage", price: 10, deposit: 50, cond: "Good – no cracks", specs: "65 x 22 in, wood frame, tilts", photoDate: "Oct 9, 2026" },
+  { id: 7, name: "Folding table 4 ft", cat: "tables", lender: "Second Life Vintage", price: 7, deposit: 20, cond: "Good", specs: "48 x 24 in, wood top", photoDate: "Oct 9, 2026" },
+  { id: 4, name: "Folding table 6 ft", cat: "tables", lender: "Bowery Events Co.", price: 9, deposit: 25, cond: "Good", specs: "72 x 30 in, plastic top, 29 in high", photoDate: "Oct 3, 2026" },
+  { id: 5, name: "Garment steamer (standing)", cat: "steamers", lender: "Bowery Events Co.", price: 7, deposit: 35, cond: "Good – tested Oct 3", specs: "1500W, 45 min continuous, 1.5 L tank", photoDate: "Oct 3, 2026" },
+  { id: 6, name: "Display shelving unit", cat: "shelving", lender: "Orchard St Boutique", price: 11, deposit: 45, cond: "Fair – one shelf slightly bowed", specs: "4 shelves, 48 x 18 x 60 in, metal", photoDate: "Sep 30, 2026" },
+];
+ITEMS.forEach(i => Object.assign(i, LENDERS[i.lender]));
+let PINS = [];
+const YOU = { mx: 190, my: 120 };
+const CATS = { all: "All equipment", racks: "Clothing racks", mirrors: "Mirrors", tables: "Folding tables", steamers: "Steamers", shelving: "Shelving" };
+const FEE = 0.10;
+
+// ---------- state ----------
+const S = { screen: "search", cat: "all", date: "2026-10-18", view: "list", pinLender: null, item: null, cart: [], start: "", end: "", slot: "", note: "" };
+const $ = document.getElementById("phone");
+function go(screen) { S.screen = screen; render(); window.scrollTo(0, 0); }
+function days() { const a = new Date(S.start), b = new Date(S.end); return Math.max(1, Math.round((b - a) / 86400000) + 1); }
+function results() { return ITEMS.filter(i => S.cat === "all" || i.cat === S.cat).sort((a, b) => a.dist - b.dist); }
+function cartItems() { return S.cart.map(id => ITEMS.find(i => i.id === id)); }
+function cartLender() { return S.cart.length ? ITEMS.find(i => i.id === S.cart[0]).lender : null; }
+function inCart(id) { return S.cart.includes(id); }
+function allIn(i, d = 1) { const sub = i.price * d; return { sub, fee: Math.round(sub * FEE * 100) / 100, dep: i.deposit, total: sub + Math.round(sub * FEE * 100) / 100 + i.deposit }; }
+function money(n) { return "$" + n.toFixed(2); }
+
+function toggleCart(id) {
+  const i = ITEMS.find(x => x.id === id);
+  if (inCart(id)) { S.cart = S.cart.filter(x => x !== id); render(); return; }
+  if (S.cart.length && cartLender() !== i.lender) {
+    if (!confirm(`Your request already has items from ${cartLender()}. One request = one lender and one pickup. Start a new request with ${i.lender}?`)) return;
+    S.cart = [];
+  }
+  S.cart.push(id); render();
+}
+
+function card(i, extra = "") {
+  const a = allIn(i);
+  return `
+    <div class="card ${extra}" onclick="S.item=${i.id};go('detail')">
+      <b>${i.name}</b>${i.verified ? '<span class="badge">ID verified</span>' : ""}${inCart(i.id) ? '<span class="badge">In request</span>' : ""}<br>
+      <span class="muted">${i.lender} · ${i.area} · ${i.dist} mi · ${i.cond.split(" – ")[0]}</span><br>
+      <span class="allin">${money(a.total)} all-in</span> <span class="muted">for 1 day · $${i.price} rental + ${money(a.fee)} fee + $${i.deposit} refundable deposit</span>
+    </div>`;
+}
+
+function cartBar() {
+  if (!S.cart.length || ["request", "pay", "done"].includes(S.screen)) return "";
+  const t = cartItems().reduce((s, i) => s + allIn(i).total, 0);
+  return `<div class="cartbar"><span>${S.cart.length} item${S.cart.length > 1 ? "s" : ""} from ${cartLender()} · ${money(t)}</span><button onclick="startRequest()">Request</button></div>`;
+}
+function startRequest() { S.start = S.date; S.end = S.date; S.slot = ""; go("request"); }
+
+// schematic map of Lower Manhattan: a few streets + pins grouped by lender
+function mapSvg(list) {
+  const groups = {};
+  list.forEach(i => { (groups[i.lender] = groups[i.lender] || { ...i, items: [] }).items.push(i); });
+  PINS = Object.values(groups);
+  const pins = PINS.map((g, idx) => `
+    <g class="pin" onclick="S.pinLender=PINS[${idx}].lender;render()">
+      <circle cx="${g.mx}" cy="${g.my}" r="11" fill="${S.pinLender === g.lender ? 'var(--brown)' : 'var(--mint)'}" stroke="var(--brown)" stroke-width="1.5"/>
+      <text x="${g.mx}" y="${g.my + 4}" font-size="11" text-anchor="middle" fill="${S.pinLender === g.lender ? 'var(--cream)' : 'var(--brown)'}" font-weight="bold">${g.items.length}</text>
+      <text x="${g.mx}" y="${g.below ? g.my + 24 : g.my - 15}" font-size="9" text-anchor="middle" fill="var(--tan)">${g.lender.replace(" (individual)", "")}</text>
+    </g>`).join("");
+  return `
+    <svg class="map" viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#e4ded0" stroke-width="6" stroke-linecap="round">
+        <line x1="20" y1="60" x2="300" y2="40"/>
+        <line x1="40" y1="120" x2="310" y2="105"/>
+        <line x1="60" y1="180" x2="300" y2="165"/>
+        <line x1="110" y1="10" x2="140" y2="210"/>
+        <line x1="200" y1="20" x2="225" y2="210"/>
+      </g>
+      <g font-size="8" fill="#b4a98f">
+        <text x="22" y="52">E Houston St</text>
+        <text x="42" y="135">Delancey St</text>
+        <text x="62" y="195">Canal St</text>
+        <text transform="translate(136 100) rotate(-82)">Bowery</text>
+      </g>
+      <circle cx="${YOU.mx}" cy="${YOU.my}" r="6" fill="#fff" stroke="var(--brown)" stroke-width="2"/>
+      <text x="${YOU.mx + 10}" y="${YOU.my + 4}" font-size="9" fill="var(--brown)">You</text>
+      ${pins}
+    </svg>`;
+}
+
+// ---------- screens ----------
+const SCREENS = {
+  search() {
+    return `
+      <div class="logo">circle<span>.</span></div>
+      <div class="muted">Rent display fixtures from nearby businesses · Lower Manhattan pilot</div>
+      <h2>Find equipment</h2>
+      <label>Category</label>
+      <select id="cat">${Object.entries(CATS).map(([k, v]) => `<option value="${k}" ${S.cat === k ? "selected" : ""}>${v}</option>`).join("")}</select>
+      <label>Event date</label>
+      <input type="date" id="date" value="${S.date}">
+      <label>Near</label>
+      <input value="Delancey St & Essex St (pilot area)" disabled>
+      <button class="primary" onclick="S.cat=cat.value;S.date=date.value;S.pinLender=null;go('results')">Search</button>`;
+  },
+  results() {
+    const list = results();
+    const picked = S.pinLender ? list.filter(i => i.lender === S.pinLender) : [];
+    return `
+      <button class="link" onclick="go('search')">&larr; Change search</button>
+      <h1>${list.length} results</h1>
+      <div class="muted">${CATS[S.cat]} · available ${S.date} · sorted by distance · prices are all-in for 1 day</div>
+      <div class="toggle">
+        <button class="${S.view === 'list' ? 'on' : ''}" onclick="S.view='list';render()">List</button>
+        <button class="${S.view === 'map' ? 'on' : ''}" onclick="S.view='map';render()">Map</button>
+      </div>
+      ${S.view === "list"
+        ? list.map(i => card(i)).join("")
+        : mapSvg(list) + (picked.length
+            ? `<div class="muted" style="margin-top:8px">${S.pinLender} · ${picked[0].area} · ${picked[0].dist} mi</div>` + picked.map(i => card(i, "pin-card")).join("")
+            : `<div class="muted" style="margin-top:8px">Tap a pin to see that lender's items. Number = items available.</div>`)}
+      ${list.length === 0 ? "<p>Nothing listed for that category yet.</p>" : ""}`;
+  },
+  detail() {
+    const i = ITEMS.find(x => x.id === S.item);
+    const a = allIn(i);
+    const more = ITEMS.filter(x => x.lender === i.lender && x.id !== i.id);
+    return `
+      <button class="link" onclick="go('results')">&larr; Back to results</button>
+      <h1>${i.name}</h1>
+      <div class="photo">item photo</div><div class="photo">item photo</div>
+      <h2>Cost (1 day, all-in)</h2>
+      <table>
+        <tr><td>Rental</td><td>$${i.price} / day</td></tr>
+        <tr><td>Circle service fee (10%)</td><td>${money(a.fee)}</td></tr>
+        <tr><td>Refundable deposit (card hold)</td><td>$${i.deposit}</td></tr>
+        <tr class="total"><td>All-in for 1 day</td><td>${money(a.total)}</td></tr>
+      </table>
+      <h2>Specs</h2>
+      <div>${i.specs}</div>
+      <h2>Condition</h2>
+      <div>${i.cond}</div>
+      <div class="muted">Condition photos dated ${i.photoDate}</div>
+      <div class="photo">condition photo</div><div class="photo">condition photo</div>
+      <h2>Lender</h2>
+      <div>${i.lender}${i.verified ? '<span class="badge">ID verified</span>' : '<span class="badge off">Not verified</span>'}</div>
+      <div class="muted">${i.area} · ${i.dist} mi from you · pickup slots: ${i.slots.join(", ")}</div>
+      <button class="primary" onclick="toggleCart(${i.id})">${inCart(i.id) ? "Remove from request" : "Add to request"}</button>
+      ${more.length ? `<h2>Also from ${i.lender} (same pickup)</h2>` + more.map(m => `
+        <div class="card static"><b>${m.name}</b> <span class="muted">${money(allIn(m).total)} all-in</span>
+          <button class="small" style="float:right" onclick="toggleCart(${m.id})">${inCart(m.id) ? "Remove" : "Add"}</button></div>`).join("") : ""}`;
+  },
+  request() {
+    const items = cartItems(); const L = LENDERS[cartLender()];
+    return `
+      <button class="link" onclick="go('results')">&larr; Back to results</button>
+      <h1>Request from ${cartLender()}</h1>
+      ${items.map(i => `<div class="card static"><b>${i.name}</b> <span class="muted">$${i.price}/day · $${i.deposit} deposit</span>
+        <button class="small" style="float:right" onclick="toggleCart(${i.id});if(!S.cart.length)go('results')">Remove</button></div>`).join("")}
+      <button class="link" onclick="go('results')">+ Add another item from this lender</button>
+      <div class="row">
+        <div><label>Rental start</label><input type="date" id="start" value="${S.start}"></div>
+        <div><label>Rental end</label><input type="date" id="end" value="${S.end}"></div>
+      </div>
+      <label>Pickup slot (set by lender)</label>
+      ${L.slots.map(s => `<label><input type="radio" name="slot" value="${s}" style="width:auto" ${S.slot === s ? "checked" : ""}> ${s}</label>`).join("")}
+      <label>Note to lender (optional)</label>
+      <textarea id="note" rows="2" placeholder="e.g. I'm at the Chelsea Flea Saturday">${S.note}</textarea>
+      <button class="primary" onclick="submitRequest()">Continue to payment</button>`;
+  },
+  pay() {
+    const items = cartItems(); const d = days();
+    const sub = items.reduce((s, i) => s + i.price * d, 0), fee = Math.round(sub * FEE * 100) / 100, dep = items.reduce((s, i) => s + i.deposit, 0), total = sub + fee + dep;
+    return `
+      <button class="link" onclick="go('request')">&larr; Back</button>
+      <h1>Book and pay</h1>
+      <div class="muted">${items.length} item${items.length > 1 ? "s" : ""} from ${cartLender()} · ${S.start} to ${S.end} (${d} day${d > 1 ? "s" : ""}) · pickup ${S.slot}</div>
+      <h2>Total</h2>
+      <table>
+        ${items.map(i => `<tr><td>${i.name} · $${i.price} x ${d}</td><td>${money(i.price * d)}</td></tr>`).join("")}
+        <tr><td>Service fee (10%)</td><td>${money(fee)}</td></tr>
+        <tr><td>Deposits (held, refunded after return)</td><td>${money(dep)}</td></tr>
+        <tr class="total"><td>Charged today</td><td>${money(total)}</td></tr>
+      </table>
+      <div class="muted" style="margin-top:6px">Rental payment is held by Circle and released to the lender after you confirm pickup.</div>
+      <h2>Card</h2>
+      <input placeholder="Card number" value="4242 4242 4242 4242">
+      <div class="row"><input placeholder="MM/YY" value="12/28"><input placeholder="CVC" value="123"></div>
+      <button class="primary" onclick="go('done')">Pay ${money(total)} and send request</button>
+      <div class="note">Prototype: payment is simulated. No real charge.</div>`;
+  },
+  done() {
+    const items = cartItems(); const L = LENDERS[cartLender()];
+    return `
+      <h1>Request sent</h1>
+      <div class="card static">
+        ${items.map(i => `<b>${i.name}</b><br>`).join("")}
+        <span class="muted">${cartLender()} · ${L.area}</span><br>
+        ${S.start} to ${S.end} · pickup ${S.slot}<br>
+        Status: <b>Waiting for lender to approve</b>
+      </div>
+      <h2>Pickup</h2>
+      <div class="addr">
+        <b>${L.addr}</b><br>
+        <span class="muted">${L.dist} mi from you · ${S.slot}</span><br>
+        ${L.instr}
+        <div class="muted" style="margin-top:6px">Full address and door code are shared once the lender approves.</div>
+      </div>
+      <h2>What happens next</h2>
+      <ol style="font-size:13px;padding-left:18px">
+        <li>Lender approves or declines within 24 hours.</li>
+        <li>If declined, your card is refunded in full.</li>
+        <li>Take a condition photo at pickup and at return.</li>
+        <li>Deposit is released after the lender's return check.</li>
+      </ol>
+      <button onclick="S.cart=[];S.pinLender=null;go('search')">Start a new request</button>`;
+  }
+};
+
+function submitRequest() {
+  S.start = start.value; S.end = end.value; S.note = note.value;
+  const r = document.querySelector('input[name=slot]:checked');
+  if (!S.start || !S.end || new Date(S.end) < new Date(S.start)) return alert("Pick a valid date range.");
+  if (!r) return alert("Pick a pickup slot.");
+  S.slot = r.value; go("pay");
+}
+
+function render() {
+  const steps = { search: 1, results: 1, detail: 2, request: 3, pay: 4, done: 5 };
+  $.innerHTML = `<div class="topbar"><span>circle. prototype v2</span><span>Step ${steps[S.screen]} of 5</span></div>` + SCREENS[S.screen]() + cartBar();
+}
+render();
+</script>
+</body>
+</html>

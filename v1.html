@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Circle. v1 prototype</title>
+<style>
+  body { font-family: Arial, Helvetica, sans-serif; background: #ddd; margin: 0; padding: 20px; }
+  #phone { width: 360px; min-height: 640px; margin: 0 auto; background: #fff; border: 2px solid #000; padding: 12px; box-sizing: border-box; }
+  .topbar { font-size: 12px; color: #555; border-bottom: 1px solid #000; padding-bottom: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  h2 { font-size: 15px; margin: 14px 0 6px; }
+  label { display: block; font-size: 13px; margin: 8px 0 2px; }
+  input, select, textarea { width: 100%; box-sizing: border-box; font: inherit; font-size: 14px; padding: 6px; border: 1px solid #000; }
+  button { font: inherit; font-size: 14px; padding: 8px 12px; border: 1px solid #000; background: #eee; cursor: pointer; margin-top: 10px; }
+  button.primary { background: #000; color: #fff; width: 100%; }
+  button.link { border: none; background: none; padding: 0; text-decoration: underline; margin: 0 0 8px; }
+  .card { border: 1px solid #000; padding: 8px; margin: 8px 0; cursor: pointer; }
+  .card:hover { background: #f4f4f4; }
+  .badge { display: inline-block; border: 1px solid #000; font-size: 11px; padding: 1px 4px; margin-left: 4px; }
+  .muted { color: #666; font-size: 12px; }
+  .photo { display: inline-block; width: 96px; height: 72px; background: #ccc; border: 1px solid #000; font-size: 11px; text-align: center; line-height: 72px; margin: 4px 4px 0 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  td { padding: 4px 0; border-bottom: 1px dotted #999; }
+  td:last-child { text-align: right; }
+  .total td { font-weight: bold; border-bottom: 2px solid #000; }
+  .note { background: #ffffcc; border: 1px dashed #000; padding: 6px; font-size: 12px; margin: 8px 0; }
+  .row { display: flex; gap: 8px; }
+  .row > * { flex: 1; }
+</style>
+</head>
+<body>
+<div id="phone"></div>
+
+<script>
+// ---------- mock data (Lower Manhattan pilot) ----------
+const ITEMS = [
+  { id: 1, name: "Rolling clothing rack (heavy duty)", cat: "racks", lender: "Second Life Vintage", area: "Lower East Side", dist: 0.4,
+    price: 12, deposit: 40, cond: "Good – minor scuffs on base", specs: "Adjustable 50–65 in, holds ~60 lb, folds flat", verified: true,
+    photoDate: "Oct 9, 2026", slots: ["Fri 5–7pm", "Sat 8–9am", "Sun 8–9am"] },
+  { id: 2, name: "Rolling clothing rack (basic)", cat: "racks", lender: "Maya K. (individual)", area: "Chinatown", dist: 0.9,
+    price: 8, deposit: 30, cond: "Fair – wheel sticks a little", specs: "Fixed 60 in, holds ~40 lb", verified: false,
+    photoDate: "Sep 28, 2026", slots: ["Sat 10–11am"] },
+  { id: 3, name: "Full-length mirror on stand", cat: "mirrors", lender: "Second Life Vintage", area: "Lower East Side", dist: 0.4,
+    price: 10, deposit: 50, cond: "Good – no cracks", specs: "65 x 22 in, wood frame, tilts", verified: true,
+    photoDate: "Oct 9, 2026", slots: ["Fri 5–7pm", "Sat 8–9am", "Sun 8–9am"] },
+  { id: 4, name: "Folding table 6 ft", cat: "tables", lender: "Bowery Events Co.", area: "NoHo", dist: 1.2,
+    price: 9, deposit: 25, cond: "Good", specs: "72 x 30 in, plastic top, 29 in high", verified: true,
+    photoDate: "Oct 3, 2026", slots: ["Fri 4–6pm", "Sat 9–10am"] },
+  { id: 5, name: "Garment steamer (standing)", cat: "steamers", lender: "Bowery Events Co.", area: "NoHo", dist: 1.2,
+    price: 7, deposit: 35, cond: "Good – tested Oct 3", specs: "1500W, 45 min continuous, 1.5 L tank", verified: true,
+    photoDate: "Oct 3, 2026", slots: ["Fri 4–6pm", "Sat 9–10am"] },
+  { id: 6, name: "Display shelving unit", cat: "shelving", lender: "Orchard St Boutique", area: "Lower East Side", dist: 0.6,
+    price: 11, deposit: 45, cond: "Fair – one shelf slightly bowed", specs: "4 shelves, 48 x 18 x 60 in, metal", verified: true,
+    photoDate: "Sep 30, 2026", slots: ["Sat 8–9am"] },
+];
+const CATS = { all: "All equipment", racks: "Clothing racks", mirrors: "Mirrors", tables: "Folding tables", steamers: "Steamers", shelving: "Shelving" };
+
+// ---------- state ----------
+const S = { screen: "search", cat: "all", date: "2026-10-18", item: null, start: "", end: "", slot: "", note: "" };
+const $ = document.getElementById("phone");
+function go(screen) { S.screen = screen; render(); window.scrollTo(0, 0); }
+function days() { const a = new Date(S.start), b = new Date(S.end); return Math.max(1, Math.round((b - a) / 86400000) + 1); }
+function fee(sub) { return Math.round(sub * 0.10 * 100) / 100; }
+
+// ---------- screens ----------
+const SCREENS = {
+  search() {
+    return `
+      <h1>Circle.</h1>
+      <div class="muted">Rent display fixtures from nearby businesses · Lower Manhattan pilot</div>
+      <h2>Find equipment</h2>
+      <label>Category</label>
+      <select id="cat">${Object.entries(CATS).map(([k, v]) => `<option value="${k}" ${S.cat === k ? "selected" : ""}>${v}</option>`).join("")}</select>
+      <label>Event date</label>
+      <input type="date" id="date" value="${S.date}">
+      <label>Near</label>
+      <input value="Lower Manhattan (pilot area)" disabled>
+      <button class="primary" onclick="S.cat=cat.value;S.date=date.value;go('results')">Search</button>
+      <div class="note">v1 note: map view and other neighborhoods not built yet.</div>`;
+  },
+  results() {
+    const list = ITEMS.filter(i => S.cat === "all" || i.cat === S.cat).sort((a, b) => a.dist - b.dist);
+    return `
+      <button class="link" onclick="go('search')">&larr; Change search</button>
+      <h1>${list.length} results</h1>
+      <div class="muted">${CATS[S.cat]} · available ${S.date} · sorted by distance</div>
+      ${list.map(i => `
+        <div class="card" onclick="S.item=${i.id};go('detail')">
+          <b>${i.name}</b>${i.verified ? '<span class="badge">ID verified</span>' : ""}<br>
+          <span class="muted">${i.lender} · ${i.area} · ${i.dist} mi</span><br>
+          $${i.price}/day · deposit $${i.deposit} · ${i.cond.split(" – ")[0]}
+        </div>`).join("")}
+      ${list.length === 0 ? "<p>Nothing listed for that category yet.</p>" : ""}`;
+  },
+  detail() {
+    const i = ITEMS.find(x => x.id === S.item);
+    return `
+      <button class="link" onclick="go('results')">&larr; Back to results</button>
+      <h1>${i.name}</h1>
+      <div class="photo">item photo</div><div class="photo">item photo</div>
+      <h2>Cost</h2>
+      <table>
+        <tr><td>Rental</td><td>$${i.price} / day</td></tr>
+        <tr><td>Refundable deposit (card hold)</td><td>$${i.deposit}</td></tr>
+        <tr><td>Circle service fee</td><td>10% of rental</td></tr>
+      </table>
+      <h2>Specs</h2>
+      <div>${i.specs}</div>
+      <h2>Condition</h2>
+      <div>${i.cond}</div>
+      <div class="muted">Condition photos dated ${i.photoDate}</div>
+      <div class="photo">condition photo</div><div class="photo">condition photo</div>
+      <h2>Lender</h2>
+      <div>${i.lender}${i.verified ? '<span class="badge">ID verified</span>' : '<span class="badge">Not verified</span>'}</div>
+      <div class="muted">${i.area} · ${i.dist} mi from you · pickup slots: ${i.slots.join(", ")}</div>
+      <button class="primary" onclick="S.start=S.date;S.end=S.date;S.slot='';go('request')">Request this item</button>`;
+  },
+  request() {
+    const i = ITEMS.find(x => x.id === S.item);
+    return `
+      <button class="link" onclick="go('detail')">&larr; Back to item</button>
+      <h1>Request: ${i.name}</h1>
+      <div class="row">
+        <div><label>Rental start</label><input type="date" id="start" value="${S.start}"></div>
+        <div><label>Rental end</label><input type="date" id="end" value="${S.end}"></div>
+      </div>
+      <label>Pickup slot (set by lender)</label>
+      ${i.slots.map(s => `<label><input type="radio" name="slot" value="${s}" style="width:auto" ${S.slot === s ? "checked" : ""}> ${s}</label>`).join("")}
+      <label>Note to lender (optional)</label>
+      <textarea id="note" rows="2" placeholder="e.g. I'm at the Chelsea Flea Saturday">${S.note}</textarea>
+      <button class="primary" onclick="submitRequest()">Continue to payment</button>`;
+  },
+  pay() {
+    const i = ITEMS.find(x => x.id === S.item);
+    const d = days(), sub = i.price * d, f = fee(sub), total = sub + f + i.deposit;
+    return `
+      <button class="link" onclick="go('request')">&larr; Back</button>
+      <h1>Book and pay</h1>
+      <div class="muted">${i.name} · ${S.start} to ${S.end} (${d} day${d > 1 ? "s" : ""}) · pickup ${S.slot}</div>
+      <h2>Total</h2>
+      <table>
+        <tr><td>Rental $${i.price} x ${d}</td><td>$${sub.toFixed(2)}</td></tr>
+        <tr><td>Service fee (10%)</td><td>$${f.toFixed(2)}</td></tr>
+        <tr><td>Deposit (held, refunded after return)</td><td>$${i.deposit.toFixed(2)}</td></tr>
+        <tr class="total"><td>Charged today</td><td>$${total.toFixed(2)}</td></tr>
+      </table>
+      <div class="muted" style="margin-top:6px">Rental payment is held by Circle and released to the lender after you confirm pickup.</div>
+      <h2>Card</h2>
+      <input placeholder="Card number" value="4242 4242 4242 4242">
+      <div class="row"><input placeholder="MM/YY" value="12/28"><input placeholder="CVC" value="123"></div>
+      <button class="primary" onclick="go('done')">Pay $${total.toFixed(2)} and send request</button>
+      <div class="note">v1 note: payment is simulated. No real charge.</div>`;
+  },
+  done() {
+    const i = ITEMS.find(x => x.id === S.item);
+    return `
+      <h1>Request sent</h1>
+      <div class="card" style="cursor:default">
+        <b>${i.name}</b><br>
+        <span class="muted">${i.lender} · ${i.area}</span><br>
+        ${S.start} to ${S.end} · pickup ${S.slot}<br>
+        Status: <b>Waiting for lender to approve</b>
+      </div>
+      <h2>What happens next</h2>
+      <ol style="font-size:13px;padding-left:18px">
+        <li>Lender approves or declines within 24 hours.</li>
+        <li>If declined, your card is refunded in full.</li>
+        <li>If approved, you get the exact pickup address.</li>
+        <li>Take a condition photo at pickup and at return.</li>
+        <li>Deposit is released after the lender's return check.</li>
+      </ol>
+      <button onclick="go('search')">Rent another item</button>`;
+  }
+};
+
+function submitRequest() {
+  S.start = start.value; S.end = end.value; S.note = note.value;
+  const r = document.querySelector('input[name=slot]:checked');
+  if (!S.start || !S.end || new Date(S.end) < new Date(S.start)) return alert("Pick a valid date range.");
+  if (!r) return alert("Pick a pickup slot.");
+  S.slot = r.value; go("pay");
+}
+
+function render() {
+  const steps = { search: 1, results: 1, detail: 2, request: 3, pay: 4, done: 5 };
+  $.innerHTML = `<div class="topbar"><span>Circle. prototype v1</span><span>Step ${steps[S.screen]} of 5</span></div>` + SCREENS[S.screen]();
+}
+render();
+</script>
+</body>
+</html>
