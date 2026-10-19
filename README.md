@@ -1,6 +1,6 @@
 # Circle. prototype
 
-Peer-to-peer rental marketplace for pop-up display fixtures in Lower Manhattan, built for a Tech Product Management class.
+Peer-to-peer rental marketplace for pop-up display fixtures in Lower Manhattan.
 
 - `index.html` / `v3.html` — current build: renter and lender flows, onboarding with ID verification, map, reviews, chat.
 - `v2.html` — Sprint 2: map, multi-item requests, all-in pricing.
